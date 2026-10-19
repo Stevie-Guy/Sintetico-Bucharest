@@ -5,10 +5,11 @@
 ### 1. Descrierea problemei
 Fotbalul amator se organizează haotic: grupuri de WhatsApp, liste de prezență făcute de mână, echipe dezechilibrate și niciun clasament care să arate cine joacă bine. Jucătorii nu găsesc ușor meciuri la nivelul lor și nici nu au o evidență a progresului. Organizatorii pierd timp cu programarea și cu calculul rezultatelor.
 
-Aplicația este o platformă web în stil Playtomic, dedicată fotbalului amator. Ea permite crearea și alăturarea la meciuri pe categorii de vârstă, organizarea de campionate, comunicarea între jucători și un sistem de rank care ține cont de nivelul real al jucătorilor din fiecare meci.
+Sintetico permite crearea și alăturarea la meciuri pe categorii de vârstă, organizarea de campionate, comunicarea între jucători și un sistem de rank care ține cont de nivelul real al jucătorilor din fiecare meci.
 
 ### 2. Utilizatori
-- **Jucător**: își face cont, caută și creează meciuri, se înscrie, comunică, își urmărește rank-ul.
+- **Jucător**: își face cont, caută și rezervă teren de fotbal, se înscrie, comunică, își urmărește rank-ul.
+- **Administrator de teren**: deține terenul de fotbal care poate fi rezervat prin aplicație.
 - **Organizator de campionat**: creează și administrează campionate, programează meciuri, introduce sau validează rezultate.
 - **Administrator**: moderează conturile și conținutul, rezolvă dispute legate de rezultate.
 
@@ -16,31 +17,26 @@ Aplicația este o platformă web în stil Playtomic, dedicată fotbalului amator
 
 | ID | Cerință |
 |---|---|
-| CF1 | Utilizatorul își poate crea cont, se poate autentifica și își poate edita profilul (nume, dată de naștere, poziție preferată). |
+| CF1 | Utilizatorul își poate crea cont, se poate autentifica și își poate edita profilul (nume, dată de naștere, poziție preferată, picior dominant). |
 | CF2 | Categoria de vârstă a utilizatorului se determină automat din data nașterii (ex. U12, U15, U18, Seniori, Veterani 35+). |
 | CF3 | Utilizatorul poate crea un meci (dată, oră, locație, număr de jucători, categorie de vârstă). |
 | CF4 | Utilizatorul poate căuta și filtra meciuri după categorie de vârstă, dată, locație și interval de rank. |
 | CF5 | Utilizatorul se poate înscrie la un meci și își poate retrage înscrierea. Înscrierea este permisă doar dacă îndeplinește categoria meciului și mai există locuri. |
 | CF6 | Sistemul calculează rank-ul mediu al meciului din rank-urile jucătorilor înscriși și îl afișează. |
 | CF7 | După finalizarea meciului se introduce rezultatul, iar sistemul actualizează rank-ul fiecărui jucător (vezi regula de calcul). |
-| CF8 | Fiecare utilizator are un rank vizibil în profil, cu istoricul modificărilor. |
-| CF9 | Există un leaderboard global al utilizatorilor, filtrabil pe categorie de vârstă. |
-| CF10 | Organizatorul poate crea campionate (nume, categorie, perioadă, număr de echipe/participanți, regulament). |
+| CF8 | Fiecare utilizator are un rank vizibil în profil. |
+| CF9 | Există un leaderboard global al utilizatorilor, filtrabil pe categorie de vârstă, sector Buc. |
+| CF10 | Organizatorul poate crea campionate (nume, categorie, perioadă, număr de echipe/participanți, regulament, premii). |
 | CF11 | Utilizatorii se pot înscrie la campionate, iar organizatorul poate programa meciurile din campionat. |
 | CF12 | Fiecare campionat are un clasament propriu, actualizat după fiecare meci. |
-| CF13 | Utilizatorii pot trimite mesaje privat și în conversația unui meci sau a unui campionat. |
-| CF14 | Utilizatorii primesc notificări (înscriere confirmată, meci modificat sau anulat, rezultat introdus). |
+| CF13 | Utilizatorii pot trimite mesaje privat și în conversația unui meci. |
+| CF14 | Utilizatorii primesc notificări (înscriere confirmată, confirmă participarea, meci modificat sau anulat, rezultat introdus). |
 | CF15 | Administratorul poate suspenda conturi și poate corecta rezultate contestate. |
 
 **Regula de calcul a rank-ului (CF7).** Se calculează rank-ul mediu al meciului (R_med). Pentru un jucător cu rank R:
 - la victorie: puncte câștigate mai multe dacă R < R_med, mai puține dacă R > R_med;
 - la înfrângere: puncte pierdute mai multe dacă R > R_med, mai puține dacă R < R_med.
 
-Formula exactă se stabilește de echipă. O variantă simplă este:
-- victorie: `Δ = K · (1 + (R_med − R) / 400)`
-- înfrângere: `Δ = −K · (1 − (R_med − R) / 400)`
-
-cu K constant (ex. 25) și Δ limitat la un interval minim/maxim. Rank-ul de start poate fi 1000. Se presupune că rank mai mare înseamnă jucător mai bun.
 
 ### 4. Cerințe nefuncționale
 - **Securitate**: parolele se stochează hash-uite, autentificarea folosește token-uri, iar datele personale ale minorilor se tratează conform GDPR (ex. consimțământ parental sub 16 ani).
@@ -48,11 +44,11 @@ cu K constant (ex. 25) și Δ limitat la un interval minim/maxim. Rank-ul de sta
 - **Consistență**: actualizarea rank-urilor după un meci este atomică (toți jucătorii sau niciunul).
 - **Utilizabilitate**: interfață responsive, utilizabilă de pe telefon.
 - **Mentenabilitate**: cod acoperit de teste unitare, cu code coverage măsurat.
-- **Integritate**: un rezultat nu poate fi modificat după validare decât de administrator, iar modificarea lasă urmă în istoric.
+- **Integritate**: un rezultat nu poate fi modificat după validare, decat de administrator in urma contestatiilor.
 
 ### 5. Use Case Diagram
 
-Actori: Jucător, Organizator (specializare a Jucătorului), Administrator.
+Actori: Jucător, Administrator de teren, Organizator (specializare a Jucătorului), Administrator.
 
 - **Jucător**: Creare cont / Autentificare, Editare profil, Creare meci, Căutare meciuri, Înscriere la meci, Anulare înscriere, Vizualizare rank și istoric, Vizualizare leaderboard, Înscriere la campionat, Trimitere mesaje, Primire notificări.
 - **Organizator**: Creare campionat, Programare meciuri campionat, Introducere/validare rezultat, Vizualizare clasament campionat.
@@ -60,11 +56,12 @@ Actori: Jucător, Organizator (specializare a Jucătorului), Administrator.
 
 Cod PlantUML (se poate randa pe plantuml.com):
 
-```plantuml
+```
 @startuml
 left to right direction
 actor Jucător
 actor Organizator
+actor "Administrator teren" as AdminTeren
 actor Administrator
 Organizator --|> Jucător
 
@@ -86,6 +83,11 @@ rectangle "Platformă turnee fotbal" {
   usecase "Corectare rezultat" as UC15
   usecase "Calcul rank mediu" as UC16
   usecase "Actualizare rank" as UC17
+  usecase "Adăugare / editare teren" as UC18
+  usecase "Setare program și disponibilitate" as UC19
+  usecase "Gestionare rezervări teren" as UC20
+  usecase "Vizualizare calendar rezervări" as UC21
+  usecase "Rezervare teren" as UC22
 }
 
 Jucător --> UC1
@@ -101,10 +103,18 @@ Jucător --> UC10
 Organizator --> UC11
 Organizator --> UC12
 Organizator --> UC13
+AdminTeren --> UC1
+AdminTeren --> UC18
+AdminTeren --> UC19
+AdminTeren --> UC20
+AdminTeren --> UC21
 Administrator --> UC14
 Administrator --> UC15
+
 UC5 ..> UC16 : <<include>>
 UC13 ..> UC17 : <<include>>
+UC3 ..> UC22 : <<include>>
+UC12 ..> UC22 : <<include>>
 @enduml
 ```
 
@@ -112,7 +122,7 @@ UC13 ..> UC17 : <<include>>
 
 ## Product Goal
 
-Să oferim jucătorilor amatori de fotbal o platformă unde găsesc rapid meciuri echilibrate pe categoria lor de vârstă, joacă în campionate organizate și își urmăresc progresul printr-un sistem de rank corect, care răsplătește victoriile împotriva adversarilor mai puternici.
+Să oferim jucătorilor amatori de fotbal o platformă unde găsesc rapid meciuri echilibrate pe categoria lor de vârstă, joacă în campionate organizate și își urmăresc progresul printr-un sistem de rank.
 
 ---
 
@@ -141,5 +151,7 @@ Să oferim jucătorilor amatori de fotbal o platformă unde găsesc rapid meciur
 - Prioritizare (PO) și Planning Poker (Developers).
 - Story-uri suplimentare pentru rezervă în backlog: administrator (suspendare cont, corectare rezultat), notificări, validarea dublă a rezultatului de către căpitani.
 
-### Documentarea utilizării AI
-Pentru acest material se documentează: instrumentul, scopul, promptul, rezultatul, modificările făcute de echipă și modul de validare.
+### Idei de extindere
+- Terenurile sunt pt un anume numar e jucatori. Administratorul de teren recomanda cati sa fie dar meciurile nu trebuie sa respecte neaparat numarul.
+- Retragerea din meci atunci cand mai este putin timp pana la acesta apare pe contul utilizatorului printr-un fel de sistem de onoare.
+- Pe langa rank sa avem si un punctaj pentru profil.
