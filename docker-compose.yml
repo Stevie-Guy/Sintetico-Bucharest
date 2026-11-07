@@ -16,7 +16,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-sintetico}
       TZ: Europe/Bucharest
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      # Doar 127.0.0.1: baza nu e accesibilă din rețea, doar de pe calculatorul tău.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
@@ -36,7 +37,7 @@ services:
       POSTGRES_DB: ${POSTGRES_TEST_DB:-sintetico_test}
       TZ: Europe/Bucharest
     ports:
-      - "${POSTGRES_TEST_PORT:-5433}:5432"
+      - "127.0.0.1:${POSTGRES_TEST_PORT:-5433}:5432"
     tmpfs:
       - /var/lib/postgresql/data
     healthcheck:
