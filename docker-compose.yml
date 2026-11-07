@@ -1,0 +1,50 @@
+# Infrastructura locală pentru dezvoltare.
+# Pornire:  docker compose up -d
+# Oprire:   docker compose down
+# Detalii în README.md, secțiunea "Docker".
+
+name: sintetico
+
+services:
+  # Baza de date pentru dezvoltare. Datele se păstrează în volumul db-data.
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sintetico}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sintetico}
+      POSTGRES_DB: ${POSTGRES_DB:-sintetico}
+      TZ: Europe/Bucharest
+    ports:
+      # Doar 127.0.0.1: baza nu e accesibilă din rețea, doar de pe calculatorul tău.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Baza de date pentru teste (Jest + Supertest).
+  # Datele stau în memorie (tmpfs): la fiecare repornire baza e goală.
+  db-test:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sintetico}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sintetico}
+      POSTGRES_DB: ${POSTGRES_TEST_DB:-sintetico_test}
+      TZ: Europe/Bucharest
+    ports:
+      - "127.0.0.1:${POSTGRES_TEST_PORT:-5433}:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  db-data:
