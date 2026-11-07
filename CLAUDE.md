@@ -23,7 +23,11 @@ Citește documentul relevant înainte de a implementa un story. Dacă o regulă 
 
 **Backend:** Node.js + TypeScript + Express, PostgreSQL + Prisma, Zod (validare), Socket.IO (chat), Jest + Supertest (teste și coverage).
 
+**Infrastructură:** PostgreSQL rulează în Docker Compose (`db` pentru dezvoltare, `db-test` pentru teste). Instrucțiunile sunt în [README.md](README.md).
+
 Nu introduce alte biblioteci sau tehnologii majore fără acordul echipei.
+
+**Variabile de mediu:** `.env` nu se urcă pe GitHub. Orice variabilă nouă se adaugă și în `.env.example`, cu o valoare de exemplu.
 
 ## Reguli de domeniu
 

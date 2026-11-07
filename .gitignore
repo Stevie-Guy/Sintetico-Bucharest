@@ -1,0 +1,24 @@
+# Python (mediu local, nefolosit de proiect)
+venv/
+
+# Variabile de mediu (conțin parole). Se urcă doar .env.example.
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+dist/
+build/
+coverage/
+*.log
+
+# Expo / React Native
+.expo/
+web-build/
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

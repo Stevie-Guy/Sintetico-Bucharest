@@ -1,0 +1,5 @@
+# Fișierele text se salvează cu LF în repository, indiferent de sistemul de operare.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary

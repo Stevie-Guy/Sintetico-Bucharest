@@ -10,3 +10,6 @@
 - Zod (validare)
 - Socket.IO (chat)
 - Jest + Supertest (teste și coverage)
+
+# Infrastructură
+- Docker Compose (PostgreSQL pentru dezvoltare și pentru teste)
