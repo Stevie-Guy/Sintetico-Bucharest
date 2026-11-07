@@ -1,0 +1,50 @@
+// Schema bazei de date Sintetico.
+// După o modificare: npm run db:migrate -- --name <descriere>
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Tipul de cont. PLAYER, FIELD_ADMIN și CHAMPIONSHIP_ORGANIZER se aleg la înregistrare (US-01).
+// CHAMPIONSHIP_ORGANIZER este o specializare a jucătorului: are și drepturile unui PLAYER.
+// ADMIN nu se poate crea din aplicație, doar cu `npm run create-admin`; are drepturile tuturor rolurilor.
+enum UserRole {
+  PLAYER
+  FIELD_ADMIN
+  CHAMPIONSHIP_ORGANIZER
+  ADMIN
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  // Stocat mereu cu litere mici, ca unicitatea să nu depindă de majuscule.
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         UserRole
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  sessions Session[]
+
+  @@map("users")
+}
+
+// Sesiune de autentificare (US-02). Clientul primește token-ul, aici se salvează doar hash-ul lui:
+// cine citește baza de date nu poate folosi sesiunile. Deconectarea șterge rândul.
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+  tokenHash String   @unique @map("token_hash")
+  userId    String   @map("user_id") @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("sessions")
+}
