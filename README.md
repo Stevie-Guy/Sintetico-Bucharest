@@ -3,6 +3,7 @@
 Platformă pentru fotbal amator în București: rezervare de terenuri, meciuri pe categorii de vârstă, campionate și un sistem de rank.
 
 Documentația proiectului:
+- [Program de funcționare și disponibilitate — API, configurare și teste](docs/operating-hours.md)
 - [Requirements Document.md](Requirements%20Document.md)
 - [product-backlog-sintetico.md](product-backlog-sintetico.md)
 - [Architecture.md](Architecture.md)
