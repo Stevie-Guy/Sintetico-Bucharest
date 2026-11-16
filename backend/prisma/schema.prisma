@@ -21,14 +21,31 @@ enum UserRole {
   ADMIN
 }
 
+enum PlayerPosition {
+  PORTAR
+  FUNDAS
+  MIJLOCAS
+  ATACANT
+}
+
+enum DominantFoot {
+  STANGA
+  DREAPTA
+}
+
 model User {
-  id           String   @id @default(uuid()) @db.Uuid
+  id                String          @id @default(uuid()) @db.Uuid
   // Stocat mereu cu litere mici, ca unicitatea să nu depindă de majuscule.
-  email        String   @unique
-  passwordHash String   @map("password_hash")
-  role         UserRole
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  email             String          @unique
+  passwordHash      String          @map("password_hash")
+  role              UserRole
+  name              String?         @db.VarChar(128)
+  dateOfBirth       DateTime?       @map("date_of_birth") @db.Date
+  preferredPosition PlayerPosition? @map("preferred_position")
+  dominantFoot      DominantFoot?   @map("dominant_foot")
+  phoneNumber       String?         @map("phone_number") @db.VarChar(12)
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
 
   sessions Session[]
 
