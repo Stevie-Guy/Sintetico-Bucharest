@@ -19,12 +19,13 @@ afterAll(async () => {
   await prisma.$disconnect();
 });
 
-describe("/api/profile (US-03)", () => {
+describe("/api/profile (US-03, US-04)", () => {
   it("returnează toate câmpurile profilului după actualizare", async () => {
     const authorization = await login();
+    const dateOfBirth = `${new Date().getUTCFullYear() - 28}-01-01`;
     const values = {
       name: "  Alex Popescu  ",
-      dateOfBirth: "1998-06-15",
+      dateOfBirth,
       preferredPosition: "MIJLOCAS",
       dominantFoot: "DREAPTA",
       phoneNumber: "+40712345678",
@@ -39,11 +40,12 @@ describe("/api/profile (US-03)", () => {
     expect(update.body.user).toMatchObject({
       email: account.email,
       name: "Alex Popescu",
-      dateOfBirth: "1998-06-15T00:00:00.000Z",
+      dateOfBirth: `${dateOfBirth}T00:00:00.000Z`,
       preferredPosition: "MIJLOCAS",
       dominantFoot: "DREAPTA",
       phoneNumber: "+40712345678",
     });
+    expect(update.body.user.ageCategory).toBe("Seniori");
 
     const profile = await request(app).get("/api/profile").set("Authorization", authorization).expect(200);
     expect(profile.body.user).toMatchObject(update.body.user);
@@ -69,6 +71,27 @@ describe("/api/profile (US-03)", () => {
 
     expect(update.body.user.name).toBe("Alex Popescu");
     expect(update.body.user.phoneNumber).toBeNull();
+  });
+
+  it("calculează categoria din data nașterii și o recalculează după modificare", async () => {
+    const authorization = await login();
+    const emptyProfile = await request(app).get("/api/profile").set("Authorization", authorization).expect(200);
+    expect(emptyProfile.body.user.ageCategory).toBeNull();
+
+    const birthYear = new Date().getUTCFullYear() - 35;
+    const update = await request(app)
+      .patch("/api/profile")
+      .set("Authorization", authorization)
+      .send({ dateOfBirth: `${birthYear}-01-01` })
+      .expect(200);
+    expect(update.body.user.ageCategory).toBe("Veterani 35+");
+
+    const cleared = await request(app)
+      .patch("/api/profile")
+      .set("Authorization", authorization)
+      .send({ dateOfBirth: null })
+      .expect(200);
+    expect(cleared.body.user.ageCategory).toBeNull();
   });
 
   it.each([
