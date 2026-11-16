@@ -4,6 +4,7 @@ Jurnalul schimbărilor și deciziilor din proiectul Sintetico. Fiecare rând spu
 
 | Data | Schimbare |
 |---|---|
+| 2026-11-16 | Pentru US-04, categoriile sunt U12 (<12), U15 (12–14), U18 (15–17), Seniori (18–34) și Veterani 35+ (35+). API-ul calculează categoria dinamic din data nașterii la citirea/actualizarea profilului; data nașterii rămâne opțională și se completează din profil, fără job programat. |
 | 2026-11-16 | Pentru US-03, profilul jucătorului acceptă nume de maximum 128 de caractere, pozițiile PORTAR/FUNDAS/MIJLOCAS/ATACANT și piciorul dominant STANGA/DREAPTA. |
 | 2026-11-07 | PostgreSQL rulează în Docker Compose: o bază de dezvoltare și una separată pentru teste. Backend-ul și aplicația Expo rulează local, pentru reîncărcare rapidă; backend-ul poate fi containerizat mai târziu. Motiv: aceeași versiune și configurare de bază de date pentru toată echipa. |
 | 2026-11-07 | S-a adăugat `Decisions.md`, un jurnal al schimbărilor și deciziilor, ca să se poată urmări ce s-a schimbat și când, fără să se caute prin istoricul git. |

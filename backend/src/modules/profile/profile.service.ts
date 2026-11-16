@@ -1,5 +1,6 @@
 import { Prisma } from "../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
+import { calculateAgeCategory, type AgeCategory } from "./age-category";
 import type { UpdateProfileInput } from "./profile.schemas";
 
 export const playerProfileFields = {
@@ -15,17 +16,27 @@ export const playerProfileFields = {
   updatedAt: true,
 } satisfies Prisma.UserSelect;
 
-export type PlayerProfile = Prisma.UserGetPayload<{ select: typeof playerProfileFields }>;
+type PlayerProfileRecord = Prisma.UserGetPayload<{ select: typeof playerProfileFields }>;
+
+export type PlayerProfile = PlayerProfileRecord & { ageCategory: AgeCategory | null };
+
+function withAgeCategory(profile: PlayerProfileRecord): PlayerProfile {
+  return {
+    ...profile,
+    ageCategory: profile.dateOfBirth ? calculateAgeCategory(profile.dateOfBirth) : null,
+  };
+}
 
 export async function getPlayerProfile(userId: string): Promise<PlayerProfile | null> {
-  return prisma.user.findUnique({
+  const profile = await prisma.user.findUnique({
     where: { id: userId },
     select: playerProfileFields,
   });
+  return profile ? withAgeCategory(profile) : null;
 }
 
 export async function updatePlayerProfile(userId: string, input: UpdateProfileInput): Promise<PlayerProfile> {
-  return prisma.user.update({
+  const profile = await prisma.user.update({
     where: { id: userId },
     data: {
       name: input.name,
@@ -41,4 +52,5 @@ export async function updatePlayerProfile(userId: string, input: UpdateProfileIn
     },
     select: playerProfileFields,
   });
+  return withAgeCategory(profile);
 }
