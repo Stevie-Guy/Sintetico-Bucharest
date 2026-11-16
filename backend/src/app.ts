@@ -4,7 +4,7 @@ import { cors } from "./middleware/cors";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { authRouter } from "./modules/auth/auth.routes";
 import { profileRouter } from "./modules/profile/profile.routes";
-
+import terenRoutes from './modules/teren/teren.routes';
 /** Construiește aplicația Express fără să pornească serverul (folosit și de testele Supertest). */
 export function createApp() {
   const app = express();
@@ -19,6 +19,7 @@ export function createApp() {
 
   app.use("/api/auth", authRouter);
   app.use("/api/profile", profileRouter);
+  app.use("/api/terenuri", terenRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
