@@ -399,7 +399,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Session: 'Session',
-  Teren: 'Teren'
+  Teren: 'Teren',
+  FieldOperatingHours: 'FieldOperatingHours',
+  FieldAvailability: 'FieldAvailability'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "teren"
+    modelProps: "user" | "session" | "teren" | "fieldOperatingHours" | "fieldAvailability"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -641,6 +643,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FieldOperatingHours: {
+      payload: Prisma.$FieldOperatingHoursPayload<ExtArgs>
+      fields: Prisma.FieldOperatingHoursFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FieldOperatingHoursFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FieldOperatingHoursFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>
+        }
+        findFirst: {
+          args: Prisma.FieldOperatingHoursFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FieldOperatingHoursFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>
+        }
+        findMany: {
+          args: Prisma.FieldOperatingHoursFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>[]
+        }
+        create: {
+          args: Prisma.FieldOperatingHoursCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>
+        }
+        createMany: {
+          args: Prisma.FieldOperatingHoursCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FieldOperatingHoursCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>[]
+        }
+        delete: {
+          args: Prisma.FieldOperatingHoursDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>
+        }
+        update: {
+          args: Prisma.FieldOperatingHoursUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>
+        }
+        deleteMany: {
+          args: Prisma.FieldOperatingHoursDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FieldOperatingHoursUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FieldOperatingHoursUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>[]
+        }
+        upsert: {
+          args: Prisma.FieldOperatingHoursUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldOperatingHoursPayload>
+        }
+        aggregate: {
+          args: Prisma.FieldOperatingHoursAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFieldOperatingHours>
+        }
+        groupBy: {
+          args: Prisma.FieldOperatingHoursGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FieldOperatingHoursGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FieldOperatingHoursCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FieldOperatingHoursCountAggregateOutputType> | number
+        }
+      }
+    }
+    FieldAvailability: {
+      payload: Prisma.$FieldAvailabilityPayload<ExtArgs>
+      fields: Prisma.FieldAvailabilityFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FieldAvailabilityFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FieldAvailabilityFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>
+        }
+        findFirst: {
+          args: Prisma.FieldAvailabilityFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FieldAvailabilityFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>
+        }
+        findMany: {
+          args: Prisma.FieldAvailabilityFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>[]
+        }
+        create: {
+          args: Prisma.FieldAvailabilityCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>
+        }
+        createMany: {
+          args: Prisma.FieldAvailabilityCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FieldAvailabilityCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>[]
+        }
+        delete: {
+          args: Prisma.FieldAvailabilityDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>
+        }
+        update: {
+          args: Prisma.FieldAvailabilityUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>
+        }
+        deleteMany: {
+          args: Prisma.FieldAvailabilityDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FieldAvailabilityUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FieldAvailabilityUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>[]
+        }
+        upsert: {
+          args: Prisma.FieldAvailabilityUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldAvailabilityPayload>
+        }
+        aggregate: {
+          args: Prisma.FieldAvailabilityAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFieldAvailability>
+        }
+        groupBy: {
+          args: Prisma.FieldAvailabilityGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FieldAvailabilityGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FieldAvailabilityCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FieldAvailabilityCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -720,6 +870,29 @@ export const TerenScalarFieldEnum = {
 } as const
 
 export type TerenScalarFieldEnum = (typeof TerenScalarFieldEnum)[keyof typeof TerenScalarFieldEnum]
+
+
+export const FieldOperatingHoursScalarFieldEnum = {
+  fieldId: 'fieldId',
+  opensAt: 'opensAt',
+  closesAt: 'closesAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FieldOperatingHoursScalarFieldEnum = (typeof FieldOperatingHoursScalarFieldEnum)[keyof typeof FieldOperatingHoursScalarFieldEnum]
+
+
+export const FieldAvailabilityScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  date: 'date',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FieldAvailabilityScalarFieldEnum = (typeof FieldAvailabilityScalarFieldEnum)[keyof typeof FieldAvailabilityScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1017,6 +1190,8 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   session?: Prisma.SessionOmit
   teren?: Prisma.TerenOmit
+  fieldOperatingHours?: Prisma.FieldOperatingHoursOmit
+  fieldAvailability?: Prisma.FieldAvailabilityOmit
 }
 
 /* Types for Logging */

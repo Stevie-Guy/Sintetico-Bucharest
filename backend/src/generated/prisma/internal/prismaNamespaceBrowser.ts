@@ -53,7 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Session: 'Session',
-  Teren: 'Teren'
+  Teren: 'Teren',
+  FieldOperatingHours: 'FieldOperatingHours',
+  FieldAvailability: 'FieldAvailability'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -112,6 +114,29 @@ export const TerenScalarFieldEnum = {
 } as const
 
 export type TerenScalarFieldEnum = (typeof TerenScalarFieldEnum)[keyof typeof TerenScalarFieldEnum]
+
+
+export const FieldOperatingHoursScalarFieldEnum = {
+  fieldId: 'fieldId',
+  opensAt: 'opensAt',
+  closesAt: 'closesAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FieldOperatingHoursScalarFieldEnum = (typeof FieldOperatingHoursScalarFieldEnum)[keyof typeof FieldOperatingHoursScalarFieldEnum]
+
+
+export const FieldAvailabilityScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  date: 'date',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FieldAvailabilityScalarFieldEnum = (typeof FieldAvailabilityScalarFieldEnum)[keyof typeof FieldAvailabilityScalarFieldEnum]
 
 
 export const SortOrder = {

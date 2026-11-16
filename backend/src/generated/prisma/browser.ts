@@ -32,3 +32,13 @@ export type Session = Prisma.SessionModel
  * 
  */
 export type Teren = Prisma.TerenModel
+/**
+ * Model FieldOperatingHours
+ * 
+ */
+export type FieldOperatingHours = Prisma.FieldOperatingHoursModel
+/**
+ * Model FieldAvailability
+ * 
+ */
+export type FieldAvailability = Prisma.FieldAvailabilityModel

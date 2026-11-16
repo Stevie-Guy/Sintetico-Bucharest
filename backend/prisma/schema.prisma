@@ -91,5 +91,34 @@ model Teren {
   updatedAt     DateTime @updatedAt @map("updated_at")
 
   @@index([adminId])
+  operatingHours FieldOperatingHours?
+  availabilityIntervals FieldAvailability[]
+
   @@map("terenuri")
+}
+
+// Ore locale Europe/Bucharest, în minute de la miezul nopții.
+// Un singur program zilnic, aplicabil tuturor datelor.
+model FieldOperatingHours {
+  fieldId     String   @id @map("field_id") @db.Uuid
+  field       Teren    @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  opensAt     Int      @map("opens_at")
+  closesAt    Int      @map("closes_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("field_operating_hours")
+}
+
+model FieldAvailability {
+  id          String   @id @default(uuid()) @db.Uuid
+  fieldId     String   @map("field_id") @db.Uuid
+  field       Teren    @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  startsAt    Int      @map("starts_at")
+  endsAt      Int      @map("ends_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([fieldId, date, startsAt])
+  @@map("field_availability")
 }
