@@ -27,16 +27,19 @@ export type AggregateFieldAvailability = {
 }
 
 export type FieldAvailabilityAvgAggregateOutputType = {
+  version: number | null
   startsAt: number | null
   endsAt: number | null
 }
 
 export type FieldAvailabilitySumAggregateOutputType = {
+  version: number | null
   startsAt: number | null
   endsAt: number | null
 }
 
 export type FieldAvailabilityMinAggregateOutputType = {
+  version: number | null
   id: string | null
   fieldId: string | null
   date: Date | null
@@ -47,6 +50,7 @@ export type FieldAvailabilityMinAggregateOutputType = {
 }
 
 export type FieldAvailabilityMaxAggregateOutputType = {
+  version: number | null
   id: string | null
   fieldId: string | null
   date: Date | null
@@ -57,6 +61,7 @@ export type FieldAvailabilityMaxAggregateOutputType = {
 }
 
 export type FieldAvailabilityCountAggregateOutputType = {
+  version: number
   id: number
   fieldId: number
   date: number
@@ -69,16 +74,19 @@ export type FieldAvailabilityCountAggregateOutputType = {
 
 
 export type FieldAvailabilityAvgAggregateInputType = {
+  version?: true
   startsAt?: true
   endsAt?: true
 }
 
 export type FieldAvailabilitySumAggregateInputType = {
+  version?: true
   startsAt?: true
   endsAt?: true
 }
 
 export type FieldAvailabilityMinAggregateInputType = {
+  version?: true
   id?: true
   fieldId?: true
   date?: true
@@ -89,6 +97,7 @@ export type FieldAvailabilityMinAggregateInputType = {
 }
 
 export type FieldAvailabilityMaxAggregateInputType = {
+  version?: true
   id?: true
   fieldId?: true
   date?: true
@@ -99,6 +108,7 @@ export type FieldAvailabilityMaxAggregateInputType = {
 }
 
 export type FieldAvailabilityCountAggregateInputType = {
+  version?: true
   id?: true
   fieldId?: true
   date?: true
@@ -196,6 +206,7 @@ export type FieldAvailabilityGroupByArgs<ExtArgs extends runtime.Types.Extension
 }
 
 export type FieldAvailabilityGroupByOutputType = {
+  version: number
   id: string
   fieldId: string
   date: Date
@@ -229,6 +240,7 @@ export type FieldAvailabilityWhereInput = {
   AND?: Prisma.FieldAvailabilityWhereInput | Prisma.FieldAvailabilityWhereInput[]
   OR?: Prisma.FieldAvailabilityWhereInput[]
   NOT?: Prisma.FieldAvailabilityWhereInput | Prisma.FieldAvailabilityWhereInput[]
+  version?: Prisma.IntFilter<"FieldAvailability"> | number
   id?: Prisma.UuidFilter<"FieldAvailability"> | string
   fieldId?: Prisma.UuidFilter<"FieldAvailability"> | string
   date?: Prisma.DateTimeFilter<"FieldAvailability"> | Date | string
@@ -237,9 +249,11 @@ export type FieldAvailabilityWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"FieldAvailability"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FieldAvailability"> | Date | string
   field?: Prisma.XOR<Prisma.TerenScalarRelationFilter, Prisma.TerenWhereInput>
+  reservations?: Prisma.ReservationListRelationFilter
 }
 
 export type FieldAvailabilityOrderByWithRelationInput = {
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   fieldId?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -248,6 +262,7 @@ export type FieldAvailabilityOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   field?: Prisma.TerenOrderByWithRelationInput
+  reservations?: Prisma.ReservationOrderByRelationAggregateInput
 }
 
 export type FieldAvailabilityWhereUniqueInput = Prisma.AtLeast<{
@@ -255,6 +270,7 @@ export type FieldAvailabilityWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.FieldAvailabilityWhereInput | Prisma.FieldAvailabilityWhereInput[]
   OR?: Prisma.FieldAvailabilityWhereInput[]
   NOT?: Prisma.FieldAvailabilityWhereInput | Prisma.FieldAvailabilityWhereInput[]
+  version?: Prisma.IntFilter<"FieldAvailability"> | number
   fieldId?: Prisma.UuidFilter<"FieldAvailability"> | string
   date?: Prisma.DateTimeFilter<"FieldAvailability"> | Date | string
   startsAt?: Prisma.IntFilter<"FieldAvailability"> | number
@@ -262,9 +278,11 @@ export type FieldAvailabilityWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"FieldAvailability"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FieldAvailability"> | Date | string
   field?: Prisma.XOR<Prisma.TerenScalarRelationFilter, Prisma.TerenWhereInput>
+  reservations?: Prisma.ReservationListRelationFilter
 }, "id">
 
 export type FieldAvailabilityOrderByWithAggregationInput = {
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   fieldId?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -283,6 +301,7 @@ export type FieldAvailabilityScalarWhereWithAggregatesInput = {
   AND?: Prisma.FieldAvailabilityScalarWhereWithAggregatesInput | Prisma.FieldAvailabilityScalarWhereWithAggregatesInput[]
   OR?: Prisma.FieldAvailabilityScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FieldAvailabilityScalarWhereWithAggregatesInput | Prisma.FieldAvailabilityScalarWhereWithAggregatesInput[]
+  version?: Prisma.IntWithAggregatesFilter<"FieldAvailability"> | number
   id?: Prisma.UuidWithAggregatesFilter<"FieldAvailability"> | string
   fieldId?: Prisma.UuidWithAggregatesFilter<"FieldAvailability"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"FieldAvailability"> | Date | string
@@ -293,6 +312,7 @@ export type FieldAvailabilityScalarWhereWithAggregatesInput = {
 }
 
 export type FieldAvailabilityCreateInput = {
+  version?: number
   id?: string
   date: Date | string
   startsAt: number
@@ -300,9 +320,11 @@ export type FieldAvailabilityCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   field: Prisma.TerenCreateNestedOneWithoutAvailabilityIntervalsInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutAvailabilityInput
 }
 
 export type FieldAvailabilityUncheckedCreateInput = {
+  version?: number
   id?: string
   fieldId: string
   date: Date | string
@@ -310,9 +332,11 @@ export type FieldAvailabilityUncheckedCreateInput = {
   endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutAvailabilityInput
 }
 
 export type FieldAvailabilityUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startsAt?: Prisma.IntFieldUpdateOperationsInput | number
@@ -320,9 +344,11 @@ export type FieldAvailabilityUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   field?: Prisma.TerenUpdateOneRequiredWithoutAvailabilityIntervalsNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutAvailabilityNestedInput
 }
 
 export type FieldAvailabilityUncheckedUpdateInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fieldId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -330,9 +356,11 @@ export type FieldAvailabilityUncheckedUpdateInput = {
   endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutAvailabilityNestedInput
 }
 
 export type FieldAvailabilityCreateManyInput = {
+  version?: number
   id?: string
   fieldId: string
   date: Date | string
@@ -343,6 +371,7 @@ export type FieldAvailabilityCreateManyInput = {
 }
 
 export type FieldAvailabilityUpdateManyMutationInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startsAt?: Prisma.IntFieldUpdateOperationsInput | number
@@ -352,6 +381,7 @@ export type FieldAvailabilityUpdateManyMutationInput = {
 }
 
 export type FieldAvailabilityUncheckedUpdateManyInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   fieldId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -372,6 +402,7 @@ export type FieldAvailabilityOrderByRelationAggregateInput = {
 }
 
 export type FieldAvailabilityCountOrderByAggregateInput = {
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   fieldId?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -382,11 +413,13 @@ export type FieldAvailabilityCountOrderByAggregateInput = {
 }
 
 export type FieldAvailabilityAvgOrderByAggregateInput = {
+  version?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
 }
 
 export type FieldAvailabilityMaxOrderByAggregateInput = {
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   fieldId?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -397,6 +430,7 @@ export type FieldAvailabilityMaxOrderByAggregateInput = {
 }
 
 export type FieldAvailabilityMinOrderByAggregateInput = {
+  version?: Prisma.SortOrder
   id?: Prisma.SortOrder
   fieldId?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -407,8 +441,14 @@ export type FieldAvailabilityMinOrderByAggregateInput = {
 }
 
 export type FieldAvailabilitySumOrderByAggregateInput = {
+  version?: Prisma.SortOrder
   startsAt?: Prisma.SortOrder
   endsAt?: Prisma.SortOrder
+}
+
+export type FieldAvailabilityNullableScalarRelationFilter = {
+  is?: Prisma.FieldAvailabilityWhereInput | null
+  isNot?: Prisma.FieldAvailabilityWhereInput | null
 }
 
 export type FieldAvailabilityCreateNestedManyWithoutFieldInput = {
@@ -453,22 +493,42 @@ export type FieldAvailabilityUncheckedUpdateManyWithoutFieldNestedInput = {
   deleteMany?: Prisma.FieldAvailabilityScalarWhereInput | Prisma.FieldAvailabilityScalarWhereInput[]
 }
 
+export type FieldAvailabilityCreateNestedOneWithoutReservationsInput = {
+  create?: Prisma.XOR<Prisma.FieldAvailabilityCreateWithoutReservationsInput, Prisma.FieldAvailabilityUncheckedCreateWithoutReservationsInput>
+  connectOrCreate?: Prisma.FieldAvailabilityCreateOrConnectWithoutReservationsInput
+  connect?: Prisma.FieldAvailabilityWhereUniqueInput
+}
+
+export type FieldAvailabilityUpdateOneWithoutReservationsNestedInput = {
+  create?: Prisma.XOR<Prisma.FieldAvailabilityCreateWithoutReservationsInput, Prisma.FieldAvailabilityUncheckedCreateWithoutReservationsInput>
+  connectOrCreate?: Prisma.FieldAvailabilityCreateOrConnectWithoutReservationsInput
+  upsert?: Prisma.FieldAvailabilityUpsertWithoutReservationsInput
+  disconnect?: Prisma.FieldAvailabilityWhereInput | boolean
+  delete?: Prisma.FieldAvailabilityWhereInput | boolean
+  connect?: Prisma.FieldAvailabilityWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FieldAvailabilityUpdateToOneWithWhereWithoutReservationsInput, Prisma.FieldAvailabilityUpdateWithoutReservationsInput>, Prisma.FieldAvailabilityUncheckedUpdateWithoutReservationsInput>
+}
+
 export type FieldAvailabilityCreateWithoutFieldInput = {
+  version?: number
   id?: string
   date: Date | string
   startsAt: number
   endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  reservations?: Prisma.ReservationCreateNestedManyWithoutAvailabilityInput
 }
 
 export type FieldAvailabilityUncheckedCreateWithoutFieldInput = {
+  version?: number
   id?: string
   date: Date | string
   startsAt: number
   endsAt: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutAvailabilityInput
 }
 
 export type FieldAvailabilityCreateOrConnectWithoutFieldInput = {
@@ -501,6 +561,7 @@ export type FieldAvailabilityScalarWhereInput = {
   AND?: Prisma.FieldAvailabilityScalarWhereInput | Prisma.FieldAvailabilityScalarWhereInput[]
   OR?: Prisma.FieldAvailabilityScalarWhereInput[]
   NOT?: Prisma.FieldAvailabilityScalarWhereInput | Prisma.FieldAvailabilityScalarWhereInput[]
+  version?: Prisma.IntFilter<"FieldAvailability"> | number
   id?: Prisma.UuidFilter<"FieldAvailability"> | string
   fieldId?: Prisma.UuidFilter<"FieldAvailability"> | string
   date?: Prisma.DateTimeFilter<"FieldAvailability"> | Date | string
@@ -510,7 +571,68 @@ export type FieldAvailabilityScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"FieldAvailability"> | Date | string
 }
 
+export type FieldAvailabilityCreateWithoutReservationsInput = {
+  version?: number
+  id?: string
+  date: Date | string
+  startsAt: number
+  endsAt: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  field: Prisma.TerenCreateNestedOneWithoutAvailabilityIntervalsInput
+}
+
+export type FieldAvailabilityUncheckedCreateWithoutReservationsInput = {
+  version?: number
+  id?: string
+  fieldId: string
+  date: Date | string
+  startsAt: number
+  endsAt: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type FieldAvailabilityCreateOrConnectWithoutReservationsInput = {
+  where: Prisma.FieldAvailabilityWhereUniqueInput
+  create: Prisma.XOR<Prisma.FieldAvailabilityCreateWithoutReservationsInput, Prisma.FieldAvailabilityUncheckedCreateWithoutReservationsInput>
+}
+
+export type FieldAvailabilityUpsertWithoutReservationsInput = {
+  update: Prisma.XOR<Prisma.FieldAvailabilityUpdateWithoutReservationsInput, Prisma.FieldAvailabilityUncheckedUpdateWithoutReservationsInput>
+  create: Prisma.XOR<Prisma.FieldAvailabilityCreateWithoutReservationsInput, Prisma.FieldAvailabilityUncheckedCreateWithoutReservationsInput>
+  where?: Prisma.FieldAvailabilityWhereInput
+}
+
+export type FieldAvailabilityUpdateToOneWithWhereWithoutReservationsInput = {
+  where?: Prisma.FieldAvailabilityWhereInput
+  data: Prisma.XOR<Prisma.FieldAvailabilityUpdateWithoutReservationsInput, Prisma.FieldAvailabilityUncheckedUpdateWithoutReservationsInput>
+}
+
+export type FieldAvailabilityUpdateWithoutReservationsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  field?: Prisma.TerenUpdateOneRequiredWithoutAvailabilityIntervalsNestedInput
+}
+
+export type FieldAvailabilityUncheckedUpdateWithoutReservationsInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fieldId?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type FieldAvailabilityCreateManyFieldInput = {
+  version?: number
   id?: string
   date: Date | string
   startsAt: number
@@ -520,24 +642,29 @@ export type FieldAvailabilityCreateManyFieldInput = {
 }
 
 export type FieldAvailabilityUpdateWithoutFieldInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startsAt?: Prisma.IntFieldUpdateOperationsInput | number
   endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reservations?: Prisma.ReservationUpdateManyWithoutAvailabilityNestedInput
 }
 
 export type FieldAvailabilityUncheckedUpdateWithoutFieldInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startsAt?: Prisma.IntFieldUpdateOperationsInput | number
   endsAt?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutAvailabilityNestedInput
 }
 
 export type FieldAvailabilityUncheckedUpdateManyWithoutFieldInput = {
+  version?: Prisma.IntFieldUpdateOperationsInput | number
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startsAt?: Prisma.IntFieldUpdateOperationsInput | number
@@ -547,8 +674,38 @@ export type FieldAvailabilityUncheckedUpdateManyWithoutFieldInput = {
 }
 
 
+/**
+ * Count Type FieldAvailabilityCountOutputType
+ */
+
+export type FieldAvailabilityCountOutputType = {
+  reservations: number
+}
+
+export type FieldAvailabilityCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  reservations?: boolean | FieldAvailabilityCountOutputTypeCountReservationsArgs
+}
+
+/**
+ * FieldAvailabilityCountOutputType without action
+ */
+export type FieldAvailabilityCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FieldAvailabilityCountOutputType
+   */
+  select?: Prisma.FieldAvailabilityCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * FieldAvailabilityCountOutputType without action
+ */
+export type FieldAvailabilityCountOutputTypeCountReservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReservationWhereInput
+}
+
 
 export type FieldAvailabilitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
   id?: boolean
   fieldId?: boolean
   date?: boolean
@@ -557,9 +714,12 @@ export type FieldAvailabilitySelect<ExtArgs extends runtime.Types.Extensions.Int
   createdAt?: boolean
   updatedAt?: boolean
   field?: boolean | Prisma.TerenDefaultArgs<ExtArgs>
+  reservations?: boolean | Prisma.FieldAvailability$reservationsArgs<ExtArgs>
+  _count?: boolean | Prisma.FieldAvailabilityCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["fieldAvailability"]>
 
 export type FieldAvailabilitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
   id?: boolean
   fieldId?: boolean
   date?: boolean
@@ -571,6 +731,7 @@ export type FieldAvailabilitySelectCreateManyAndReturn<ExtArgs extends runtime.T
 }, ExtArgs["result"]["fieldAvailability"]>
 
 export type FieldAvailabilitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  version?: boolean
   id?: boolean
   fieldId?: boolean
   date?: boolean
@@ -582,6 +743,7 @@ export type FieldAvailabilitySelectUpdateManyAndReturn<ExtArgs extends runtime.T
 }, ExtArgs["result"]["fieldAvailability"]>
 
 export type FieldAvailabilitySelectScalar = {
+  version?: boolean
   id?: boolean
   fieldId?: boolean
   date?: boolean
@@ -591,9 +753,11 @@ export type FieldAvailabilitySelectScalar = {
   updatedAt?: boolean
 }
 
-export type FieldAvailabilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fieldId" | "date" | "startsAt" | "endsAt" | "createdAt" | "updatedAt", ExtArgs["result"]["fieldAvailability"]>
+export type FieldAvailabilityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"version" | "id" | "fieldId" | "date" | "startsAt" | "endsAt" | "createdAt" | "updatedAt", ExtArgs["result"]["fieldAvailability"]>
 export type FieldAvailabilityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   field?: boolean | Prisma.TerenDefaultArgs<ExtArgs>
+  reservations?: boolean | Prisma.FieldAvailability$reservationsArgs<ExtArgs>
+  _count?: boolean | Prisma.FieldAvailabilityCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FieldAvailabilityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   field?: boolean | Prisma.TerenDefaultArgs<ExtArgs>
@@ -606,8 +770,10 @@ export type $FieldAvailabilityPayload<ExtArgs extends runtime.Types.Extensions.I
   name: "FieldAvailability"
   objects: {
     field: Prisma.$TerenPayload<ExtArgs>
+    reservations: Prisma.$ReservationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    version: number
     id: string
     fieldId: string
     date: Date
@@ -698,8 +864,8 @@ export interface FieldAvailabilityDelegate<ExtArgs extends runtime.Types.Extensi
    * // Get first 10 FieldAvailabilities
    * const fieldAvailabilities = await prisma.fieldAvailability.findMany({ take: 10 })
    * 
-   * // Only select the `id`
-   * const fieldAvailabilityWithIdOnly = await prisma.fieldAvailability.findMany({ select: { id: true } })
+   * // Only select the `version`
+   * const fieldAvailabilityWithVersionOnly = await prisma.fieldAvailability.findMany({ select: { version: true } })
    * 
    */
   findMany<T extends FieldAvailabilityFindManyArgs>(args?: Prisma.SelectSubset<T, FieldAvailabilityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FieldAvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -743,9 +909,9 @@ export interface FieldAvailabilityDelegate<ExtArgs extends runtime.Types.Extensi
    *   ]
    * })
    * 
-   * // Create many FieldAvailabilities and only return the `id`
-   * const fieldAvailabilityWithIdOnly = await prisma.fieldAvailability.createManyAndReturn({
-   *   select: { id: true },
+   * // Create many FieldAvailabilities and only return the `version`
+   * const fieldAvailabilityWithVersionOnly = await prisma.fieldAvailability.createManyAndReturn({
+   *   select: { version: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -834,9 +1000,9 @@ export interface FieldAvailabilityDelegate<ExtArgs extends runtime.Types.Extensi
    *   ]
    * })
    * 
-   * // Update zero or more FieldAvailabilities and only return the `id`
-   * const fieldAvailabilityWithIdOnly = await prisma.fieldAvailability.updateManyAndReturn({
-   *   select: { id: true },
+   * // Update zero or more FieldAvailabilities and only return the `version`
+   * const fieldAvailabilityWithVersionOnly = await prisma.fieldAvailability.updateManyAndReturn({
+   *   select: { version: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -1010,6 +1176,7 @@ readonly fields: FieldAvailabilityFieldRefs;
 export interface Prisma__FieldAvailabilityClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   field<T extends Prisma.TerenDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TerenDefaultArgs<ExtArgs>>): Prisma.Prisma__TerenClient<runtime.Types.Result.GetResult<Prisma.$TerenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  reservations<T extends Prisma.FieldAvailability$reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FieldAvailability$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1039,6 +1206,7 @@ export interface Prisma__FieldAvailabilityClient<T, Null = never, ExtArgs extend
  * Fields of the FieldAvailability model
  */
 export interface FieldAvailabilityFieldRefs {
+  readonly version: Prisma.FieldRef<"FieldAvailability", 'Int'>
   readonly id: Prisma.FieldRef<"FieldAvailability", 'String'>
   readonly fieldId: Prisma.FieldRef<"FieldAvailability", 'String'>
   readonly date: Prisma.FieldRef<"FieldAvailability", 'DateTime'>
@@ -1444,6 +1612,30 @@ export type FieldAvailabilityDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many FieldAvailabilities to delete.
    */
   limit?: number
+}
+
+/**
+ * FieldAvailability.reservations
+ */
+export type FieldAvailability$reservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reservation
+   */
+  select?: Prisma.ReservationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reservation
+   */
+  omit?: Prisma.ReservationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReservationInclude<ExtArgs> | null
+  where?: Prisma.ReservationWhereInput
+  orderBy?: Prisma.ReservationOrderByWithRelationInput | Prisma.ReservationOrderByWithRelationInput[]
+  cursor?: Prisma.ReservationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReservationScalarFieldEnum | Prisma.ReservationScalarFieldEnum[]
 }
 
 /**

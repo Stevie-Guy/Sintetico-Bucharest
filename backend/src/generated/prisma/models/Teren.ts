@@ -243,6 +243,7 @@ export type TerenWhereInput = {
   admin?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   operatingHours?: Prisma.XOR<Prisma.FieldOperatingHoursNullableScalarRelationFilter, Prisma.FieldOperatingHoursWhereInput> | null
   availabilityIntervals?: Prisma.FieldAvailabilityListRelationFilter
+  reservations?: Prisma.ReservationListRelationFilter
 }
 
 export type TerenOrderByWithRelationInput = {
@@ -257,6 +258,7 @@ export type TerenOrderByWithRelationInput = {
   admin?: Prisma.UserOrderByWithRelationInput
   operatingHours?: Prisma.FieldOperatingHoursOrderByWithRelationInput
   availabilityIntervals?: Prisma.FieldAvailabilityOrderByRelationAggregateInput
+  reservations?: Prisma.ReservationOrderByRelationAggregateInput
 }
 
 export type TerenWhereUniqueInput = Prisma.AtLeast<{
@@ -274,6 +276,7 @@ export type TerenWhereUniqueInput = Prisma.AtLeast<{
   admin?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   operatingHours?: Prisma.XOR<Prisma.FieldOperatingHoursNullableScalarRelationFilter, Prisma.FieldOperatingHoursWhereInput> | null
   availabilityIntervals?: Prisma.FieldAvailabilityListRelationFilter
+  reservations?: Prisma.ReservationListRelationFilter
 }, "id">
 
 export type TerenOrderByWithAggregationInput = {
@@ -317,6 +320,7 @@ export type TerenCreateInput = {
   admin: Prisma.UserCreateNestedOneWithoutTerenuriInput
   operatingHours?: Prisma.FieldOperatingHoursCreateNestedOneWithoutFieldInput
   availabilityIntervals?: Prisma.FieldAvailabilityCreateNestedManyWithoutFieldInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutFieldInput
 }
 
 export type TerenUncheckedCreateInput = {
@@ -330,6 +334,7 @@ export type TerenUncheckedCreateInput = {
   updatedAt?: Date | string
   operatingHours?: Prisma.FieldOperatingHoursUncheckedCreateNestedOneWithoutFieldInput
   availabilityIntervals?: Prisma.FieldAvailabilityUncheckedCreateNestedManyWithoutFieldInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutFieldInput
 }
 
 export type TerenUpdateInput = {
@@ -343,6 +348,7 @@ export type TerenUpdateInput = {
   admin?: Prisma.UserUpdateOneRequiredWithoutTerenuriNestedInput
   operatingHours?: Prisma.FieldOperatingHoursUpdateOneWithoutFieldNestedInput
   availabilityIntervals?: Prisma.FieldAvailabilityUpdateManyWithoutFieldNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutFieldNestedInput
 }
 
 export type TerenUncheckedUpdateInput = {
@@ -356,6 +362,7 @@ export type TerenUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   operatingHours?: Prisma.FieldOperatingHoursUncheckedUpdateOneWithoutFieldNestedInput
   availabilityIntervals?: Prisma.FieldAvailabilityUncheckedUpdateManyWithoutFieldNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutFieldNestedInput
 }
 
 export type TerenCreateManyInput = {
@@ -528,6 +535,20 @@ export type TerenUpdateOneRequiredWithoutAvailabilityIntervalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TerenUpdateToOneWithWhereWithoutAvailabilityIntervalsInput, Prisma.TerenUpdateWithoutAvailabilityIntervalsInput>, Prisma.TerenUncheckedUpdateWithoutAvailabilityIntervalsInput>
 }
 
+export type TerenCreateNestedOneWithoutReservationsInput = {
+  create?: Prisma.XOR<Prisma.TerenCreateWithoutReservationsInput, Prisma.TerenUncheckedCreateWithoutReservationsInput>
+  connectOrCreate?: Prisma.TerenCreateOrConnectWithoutReservationsInput
+  connect?: Prisma.TerenWhereUniqueInput
+}
+
+export type TerenUpdateOneRequiredWithoutReservationsNestedInput = {
+  create?: Prisma.XOR<Prisma.TerenCreateWithoutReservationsInput, Prisma.TerenUncheckedCreateWithoutReservationsInput>
+  connectOrCreate?: Prisma.TerenCreateOrConnectWithoutReservationsInput
+  upsert?: Prisma.TerenUpsertWithoutReservationsInput
+  connect?: Prisma.TerenWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TerenUpdateToOneWithWhereWithoutReservationsInput, Prisma.TerenUpdateWithoutReservationsInput>, Prisma.TerenUncheckedUpdateWithoutReservationsInput>
+}
+
 export type TerenCreateWithoutAdminInput = {
   id?: string
   nume: string
@@ -538,6 +559,7 @@ export type TerenCreateWithoutAdminInput = {
   updatedAt?: Date | string
   operatingHours?: Prisma.FieldOperatingHoursCreateNestedOneWithoutFieldInput
   availabilityIntervals?: Prisma.FieldAvailabilityCreateNestedManyWithoutFieldInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutFieldInput
 }
 
 export type TerenUncheckedCreateWithoutAdminInput = {
@@ -550,6 +572,7 @@ export type TerenUncheckedCreateWithoutAdminInput = {
   updatedAt?: Date | string
   operatingHours?: Prisma.FieldOperatingHoursUncheckedCreateNestedOneWithoutFieldInput
   availabilityIntervals?: Prisma.FieldAvailabilityUncheckedCreateNestedManyWithoutFieldInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutFieldInput
 }
 
 export type TerenCreateOrConnectWithoutAdminInput = {
@@ -602,6 +625,7 @@ export type TerenCreateWithoutOperatingHoursInput = {
   updatedAt?: Date | string
   admin: Prisma.UserCreateNestedOneWithoutTerenuriInput
   availabilityIntervals?: Prisma.FieldAvailabilityCreateNestedManyWithoutFieldInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutFieldInput
 }
 
 export type TerenUncheckedCreateWithoutOperatingHoursInput = {
@@ -614,6 +638,7 @@ export type TerenUncheckedCreateWithoutOperatingHoursInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   availabilityIntervals?: Prisma.FieldAvailabilityUncheckedCreateNestedManyWithoutFieldInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutFieldInput
 }
 
 export type TerenCreateOrConnectWithoutOperatingHoursInput = {
@@ -642,6 +667,7 @@ export type TerenUpdateWithoutOperatingHoursInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admin?: Prisma.UserUpdateOneRequiredWithoutTerenuriNestedInput
   availabilityIntervals?: Prisma.FieldAvailabilityUpdateManyWithoutFieldNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutFieldNestedInput
 }
 
 export type TerenUncheckedUpdateWithoutOperatingHoursInput = {
@@ -654,6 +680,7 @@ export type TerenUncheckedUpdateWithoutOperatingHoursInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilityIntervals?: Prisma.FieldAvailabilityUncheckedUpdateManyWithoutFieldNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutFieldNestedInput
 }
 
 export type TerenCreateWithoutAvailabilityIntervalsInput = {
@@ -666,6 +693,7 @@ export type TerenCreateWithoutAvailabilityIntervalsInput = {
   updatedAt?: Date | string
   admin: Prisma.UserCreateNestedOneWithoutTerenuriInput
   operatingHours?: Prisma.FieldOperatingHoursCreateNestedOneWithoutFieldInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutFieldInput
 }
 
 export type TerenUncheckedCreateWithoutAvailabilityIntervalsInput = {
@@ -678,6 +706,7 @@ export type TerenUncheckedCreateWithoutAvailabilityIntervalsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   operatingHours?: Prisma.FieldOperatingHoursUncheckedCreateNestedOneWithoutFieldInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutFieldInput
 }
 
 export type TerenCreateOrConnectWithoutAvailabilityIntervalsInput = {
@@ -706,6 +735,7 @@ export type TerenUpdateWithoutAvailabilityIntervalsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admin?: Prisma.UserUpdateOneRequiredWithoutTerenuriNestedInput
   operatingHours?: Prisma.FieldOperatingHoursUpdateOneWithoutFieldNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutFieldNestedInput
 }
 
 export type TerenUncheckedUpdateWithoutAvailabilityIntervalsInput = {
@@ -718,6 +748,75 @@ export type TerenUncheckedUpdateWithoutAvailabilityIntervalsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   operatingHours?: Prisma.FieldOperatingHoursUncheckedUpdateOneWithoutFieldNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutFieldNestedInput
+}
+
+export type TerenCreateWithoutReservationsInput = {
+  id?: string
+  nume: string
+  adresa: string
+  sector: $Enums.Sector
+  numarJucatori: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  admin: Prisma.UserCreateNestedOneWithoutTerenuriInput
+  operatingHours?: Prisma.FieldOperatingHoursCreateNestedOneWithoutFieldInput
+  availabilityIntervals?: Prisma.FieldAvailabilityCreateNestedManyWithoutFieldInput
+}
+
+export type TerenUncheckedCreateWithoutReservationsInput = {
+  id?: string
+  nume: string
+  adresa: string
+  sector: $Enums.Sector
+  numarJucatori: number
+  adminId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  operatingHours?: Prisma.FieldOperatingHoursUncheckedCreateNestedOneWithoutFieldInput
+  availabilityIntervals?: Prisma.FieldAvailabilityUncheckedCreateNestedManyWithoutFieldInput
+}
+
+export type TerenCreateOrConnectWithoutReservationsInput = {
+  where: Prisma.TerenWhereUniqueInput
+  create: Prisma.XOR<Prisma.TerenCreateWithoutReservationsInput, Prisma.TerenUncheckedCreateWithoutReservationsInput>
+}
+
+export type TerenUpsertWithoutReservationsInput = {
+  update: Prisma.XOR<Prisma.TerenUpdateWithoutReservationsInput, Prisma.TerenUncheckedUpdateWithoutReservationsInput>
+  create: Prisma.XOR<Prisma.TerenCreateWithoutReservationsInput, Prisma.TerenUncheckedCreateWithoutReservationsInput>
+  where?: Prisma.TerenWhereInput
+}
+
+export type TerenUpdateToOneWithWhereWithoutReservationsInput = {
+  where?: Prisma.TerenWhereInput
+  data: Prisma.XOR<Prisma.TerenUpdateWithoutReservationsInput, Prisma.TerenUncheckedUpdateWithoutReservationsInput>
+}
+
+export type TerenUpdateWithoutReservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nume?: Prisma.StringFieldUpdateOperationsInput | string
+  adresa?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.EnumSectorFieldUpdateOperationsInput | $Enums.Sector
+  numarJucatori?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  admin?: Prisma.UserUpdateOneRequiredWithoutTerenuriNestedInput
+  operatingHours?: Prisma.FieldOperatingHoursUpdateOneWithoutFieldNestedInput
+  availabilityIntervals?: Prisma.FieldAvailabilityUpdateManyWithoutFieldNestedInput
+}
+
+export type TerenUncheckedUpdateWithoutReservationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nume?: Prisma.StringFieldUpdateOperationsInput | string
+  adresa?: Prisma.StringFieldUpdateOperationsInput | string
+  sector?: Prisma.EnumSectorFieldUpdateOperationsInput | $Enums.Sector
+  numarJucatori?: Prisma.IntFieldUpdateOperationsInput | number
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  operatingHours?: Prisma.FieldOperatingHoursUncheckedUpdateOneWithoutFieldNestedInput
+  availabilityIntervals?: Prisma.FieldAvailabilityUncheckedUpdateManyWithoutFieldNestedInput
 }
 
 export type TerenCreateManyAdminInput = {
@@ -740,6 +839,7 @@ export type TerenUpdateWithoutAdminInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   operatingHours?: Prisma.FieldOperatingHoursUpdateOneWithoutFieldNestedInput
   availabilityIntervals?: Prisma.FieldAvailabilityUpdateManyWithoutFieldNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutFieldNestedInput
 }
 
 export type TerenUncheckedUpdateWithoutAdminInput = {
@@ -752,6 +852,7 @@ export type TerenUncheckedUpdateWithoutAdminInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   operatingHours?: Prisma.FieldOperatingHoursUncheckedUpdateOneWithoutFieldNestedInput
   availabilityIntervals?: Prisma.FieldAvailabilityUncheckedUpdateManyWithoutFieldNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutFieldNestedInput
 }
 
 export type TerenUncheckedUpdateManyWithoutAdminInput = {
@@ -771,10 +872,12 @@ export type TerenUncheckedUpdateManyWithoutAdminInput = {
 
 export type TerenCountOutputType = {
   availabilityIntervals: number
+  reservations: number
 }
 
 export type TerenCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   availabilityIntervals?: boolean | TerenCountOutputTypeCountAvailabilityIntervalsArgs
+  reservations?: boolean | TerenCountOutputTypeCountReservationsArgs
 }
 
 /**
@@ -794,6 +897,13 @@ export type TerenCountOutputTypeCountAvailabilityIntervalsArgs<ExtArgs extends r
   where?: Prisma.FieldAvailabilityWhereInput
 }
 
+/**
+ * TerenCountOutputType without action
+ */
+export type TerenCountOutputTypeCountReservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReservationWhereInput
+}
+
 
 export type TerenSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -807,6 +917,7 @@ export type TerenSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   operatingHours?: boolean | Prisma.Teren$operatingHoursArgs<ExtArgs>
   availabilityIntervals?: boolean | Prisma.Teren$availabilityIntervalsArgs<ExtArgs>
+  reservations?: boolean | Prisma.Teren$reservationsArgs<ExtArgs>
   _count?: boolean | Prisma.TerenCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teren"]>
 
@@ -850,6 +961,7 @@ export type TerenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   admin?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   operatingHours?: boolean | Prisma.Teren$operatingHoursArgs<ExtArgs>
   availabilityIntervals?: boolean | Prisma.Teren$availabilityIntervalsArgs<ExtArgs>
+  reservations?: boolean | Prisma.Teren$reservationsArgs<ExtArgs>
   _count?: boolean | Prisma.TerenCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TerenIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -865,6 +977,7 @@ export type $TerenPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     admin: Prisma.$UserPayload<ExtArgs>
     operatingHours: Prisma.$FieldOperatingHoursPayload<ExtArgs> | null
     availabilityIntervals: Prisma.$FieldAvailabilityPayload<ExtArgs>[]
+    reservations: Prisma.$ReservationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1272,6 +1385,7 @@ export interface Prisma__TerenClient<T, Null = never, ExtArgs extends runtime.Ty
   admin<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   operatingHours<T extends Prisma.Teren$operatingHoursArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teren$operatingHoursArgs<ExtArgs>>): Prisma.Prisma__FieldOperatingHoursClient<runtime.Types.Result.GetResult<Prisma.$FieldOperatingHoursPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   availabilityIntervals<T extends Prisma.Teren$availabilityIntervalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teren$availabilityIntervalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FieldAvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reservations<T extends Prisma.Teren$reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teren$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1750,6 +1864,30 @@ export type Teren$availabilityIntervalsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.FieldAvailabilityScalarFieldEnum | Prisma.FieldAvailabilityScalarFieldEnum[]
+}
+
+/**
+ * Teren.reservations
+ */
+export type Teren$reservationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Reservation
+   */
+  select?: Prisma.ReservationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Reservation
+   */
+  omit?: Prisma.ReservationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReservationInclude<ExtArgs> | null
+  where?: Prisma.ReservationWhereInput
+  orderBy?: Prisma.ReservationOrderByWithRelationInput | Prisma.ReservationOrderByWithRelationInput[]
+  cursor?: Prisma.ReservationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReservationScalarFieldEnum | Prisma.ReservationScalarFieldEnum[]
 }
 
 /**

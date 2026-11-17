@@ -42,3 +42,13 @@ export type FieldOperatingHours = Prisma.FieldOperatingHoursModel
  * 
  */
 export type FieldAvailability = Prisma.FieldAvailabilityModel
+/**
+ * Model Reservation
+ * 
+ */
+export type Reservation = Prisma.ReservationModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
