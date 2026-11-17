@@ -65,4 +65,5 @@ mobile/
 - În aplicația mobilă, ecranele aleg ce afișează după `activeRole` din `useAuth()`, nu după `user.role`, ca Administratorul să poată schimba perspectiva.
 - În aplicația mobilă, token-ul stă în `expo-secure-store`; în browser (`npm run web`), în `localStorage`, doar pentru dezvoltare.
 - CORS: API-ul acceptă cereri din browser doar de la originile din `CORS_ORIGINS`. Aplicația de pe telefon nu are nevoie de CORS; e folosit pentru varianta web a aplicației (`npm run web` în `mobile/`).
+- Listele se paginează cu `?page=&pageSize=` (implicit 1 și 20, maxim 100; `paginationShape` din `modules/reservations/reservation.schemas.ts`) și răspund cu `{ <entități>, page, pageSize, hasMore }`.
 - Erorile au mereu forma `{ "error": { "code", "message", "fields"? } }`: `code` în engleză pentru cod, `message` în română pentru utilizator, `fields` cu erorile pe fiecare câmp.
