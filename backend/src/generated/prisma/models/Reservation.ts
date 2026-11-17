@@ -280,6 +280,7 @@ export type ReservationWhereInput = {
   player?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   availability?: Prisma.XOR<Prisma.FieldAvailabilityNullableScalarRelationFilter, Prisma.FieldAvailabilityWhereInput> | null
   notifications?: Prisma.NotificationListRelationFilter
+  match?: Prisma.XOR<Prisma.MatchNullableScalarRelationFilter, Prisma.MatchWhereInput> | null
 }
 
 export type ReservationOrderByWithRelationInput = {
@@ -299,6 +300,7 @@ export type ReservationOrderByWithRelationInput = {
   player?: Prisma.UserOrderByWithRelationInput
   availability?: Prisma.FieldAvailabilityOrderByWithRelationInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  match?: Prisma.MatchOrderByWithRelationInput
 }
 
 export type ReservationWhereUniqueInput = Prisma.AtLeast<{
@@ -321,6 +323,7 @@ export type ReservationWhereUniqueInput = Prisma.AtLeast<{
   player?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   availability?: Prisma.XOR<Prisma.FieldAvailabilityNullableScalarRelationFilter, Prisma.FieldAvailabilityWhereInput> | null
   notifications?: Prisma.NotificationListRelationFilter
+  match?: Prisma.XOR<Prisma.MatchNullableScalarRelationFilter, Prisma.MatchWhereInput> | null
 }, "id">
 
 export type ReservationOrderByWithAggregationInput = {
@@ -375,6 +378,7 @@ export type ReservationCreateInput = {
   player: Prisma.UserCreateNestedOneWithoutReservationsInput
   availability?: Prisma.FieldAvailabilityCreateNestedOneWithoutReservationsInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutReservationInput
+  match?: Prisma.MatchCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationUncheckedCreateInput = {
@@ -391,6 +395,7 @@ export type ReservationUncheckedCreateInput = {
   createdAt?: Date | string
   decidedAt?: Date | string | null
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutReservationInput
+  match?: Prisma.MatchUncheckedCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationUpdateInput = {
@@ -407,6 +412,7 @@ export type ReservationUpdateInput = {
   player?: Prisma.UserUpdateOneRequiredWithoutReservationsNestedInput
   availability?: Prisma.FieldAvailabilityUpdateOneWithoutReservationsNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutReservationNestedInput
+  match?: Prisma.MatchUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationUncheckedUpdateInput = {
@@ -423,6 +429,7 @@ export type ReservationUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutReservationNestedInput
+  match?: Prisma.MatchUncheckedUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationCreateManyInput = {
@@ -681,6 +688,20 @@ export type ReservationUpdateOneRequiredWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ReservationUpdateToOneWithWhereWithoutNotificationsInput, Prisma.ReservationUpdateWithoutNotificationsInput>, Prisma.ReservationUncheckedUpdateWithoutNotificationsInput>
 }
 
+export type ReservationCreateNestedOneWithoutMatchInput = {
+  create?: Prisma.XOR<Prisma.ReservationCreateWithoutMatchInput, Prisma.ReservationUncheckedCreateWithoutMatchInput>
+  connectOrCreate?: Prisma.ReservationCreateOrConnectWithoutMatchInput
+  connect?: Prisma.ReservationWhereUniqueInput
+}
+
+export type ReservationUpdateOneRequiredWithoutMatchNestedInput = {
+  create?: Prisma.XOR<Prisma.ReservationCreateWithoutMatchInput, Prisma.ReservationUncheckedCreateWithoutMatchInput>
+  connectOrCreate?: Prisma.ReservationCreateOrConnectWithoutMatchInput
+  upsert?: Prisma.ReservationUpsertWithoutMatchInput
+  connect?: Prisma.ReservationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ReservationUpdateToOneWithWhereWithoutMatchInput, Prisma.ReservationUpdateWithoutMatchInput>, Prisma.ReservationUncheckedUpdateWithoutMatchInput>
+}
+
 export type ReservationCreateWithoutPlayerInput = {
   id?: string
   date: Date | string
@@ -694,6 +715,7 @@ export type ReservationCreateWithoutPlayerInput = {
   field: Prisma.TerenCreateNestedOneWithoutReservationsInput
   availability?: Prisma.FieldAvailabilityCreateNestedOneWithoutReservationsInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutReservationInput
+  match?: Prisma.MatchCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationUncheckedCreateWithoutPlayerInput = {
@@ -709,6 +731,7 @@ export type ReservationUncheckedCreateWithoutPlayerInput = {
   createdAt?: Date | string
   decidedAt?: Date | string | null
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutReservationInput
+  match?: Prisma.MatchUncheckedCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationCreateOrConnectWithoutPlayerInput = {
@@ -768,6 +791,7 @@ export type ReservationCreateWithoutFieldInput = {
   player: Prisma.UserCreateNestedOneWithoutReservationsInput
   availability?: Prisma.FieldAvailabilityCreateNestedOneWithoutReservationsInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutReservationInput
+  match?: Prisma.MatchCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationUncheckedCreateWithoutFieldInput = {
@@ -783,6 +807,7 @@ export type ReservationUncheckedCreateWithoutFieldInput = {
   createdAt?: Date | string
   decidedAt?: Date | string | null
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutReservationInput
+  match?: Prisma.MatchUncheckedCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationCreateOrConnectWithoutFieldInput = {
@@ -824,6 +849,7 @@ export type ReservationCreateWithoutAvailabilityInput = {
   field: Prisma.TerenCreateNestedOneWithoutReservationsInput
   player: Prisma.UserCreateNestedOneWithoutReservationsInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutReservationInput
+  match?: Prisma.MatchCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationUncheckedCreateWithoutAvailabilityInput = {
@@ -839,6 +865,7 @@ export type ReservationUncheckedCreateWithoutAvailabilityInput = {
   createdAt?: Date | string
   decidedAt?: Date | string | null
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutReservationInput
+  match?: Prisma.MatchUncheckedCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationCreateOrConnectWithoutAvailabilityInput = {
@@ -880,6 +907,7 @@ export type ReservationCreateWithoutNotificationsInput = {
   field: Prisma.TerenCreateNestedOneWithoutReservationsInput
   player: Prisma.UserCreateNestedOneWithoutReservationsInput
   availability?: Prisma.FieldAvailabilityCreateNestedOneWithoutReservationsInput
+  match?: Prisma.MatchCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationUncheckedCreateWithoutNotificationsInput = {
@@ -895,6 +923,7 @@ export type ReservationUncheckedCreateWithoutNotificationsInput = {
   status?: $Enums.ReservationStatus
   createdAt?: Date | string
   decidedAt?: Date | string | null
+  match?: Prisma.MatchUncheckedCreateNestedOneWithoutReservationInput
 }
 
 export type ReservationCreateOrConnectWithoutNotificationsInput = {
@@ -926,6 +955,7 @@ export type ReservationUpdateWithoutNotificationsInput = {
   field?: Prisma.TerenUpdateOneRequiredWithoutReservationsNestedInput
   player?: Prisma.UserUpdateOneRequiredWithoutReservationsNestedInput
   availability?: Prisma.FieldAvailabilityUpdateOneWithoutReservationsNestedInput
+  match?: Prisma.MatchUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationUncheckedUpdateWithoutNotificationsInput = {
@@ -941,6 +971,87 @@ export type ReservationUncheckedUpdateWithoutNotificationsInput = {
   status?: Prisma.EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  match?: Prisma.MatchUncheckedUpdateOneWithoutReservationNestedInput
+}
+
+export type ReservationCreateWithoutMatchInput = {
+  id?: string
+  date: Date | string
+  startsAt: number
+  endsAt: number
+  startsAtUtc: Date | string
+  endsAtUtc: Date | string
+  status?: $Enums.ReservationStatus
+  createdAt?: Date | string
+  decidedAt?: Date | string | null
+  field: Prisma.TerenCreateNestedOneWithoutReservationsInput
+  player: Prisma.UserCreateNestedOneWithoutReservationsInput
+  availability?: Prisma.FieldAvailabilityCreateNestedOneWithoutReservationsInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutReservationInput
+}
+
+export type ReservationUncheckedCreateWithoutMatchInput = {
+  id?: string
+  fieldId: string
+  playerId: string
+  availabilityId?: string | null
+  date: Date | string
+  startsAt: number
+  endsAt: number
+  startsAtUtc: Date | string
+  endsAtUtc: Date | string
+  status?: $Enums.ReservationStatus
+  createdAt?: Date | string
+  decidedAt?: Date | string | null
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutReservationInput
+}
+
+export type ReservationCreateOrConnectWithoutMatchInput = {
+  where: Prisma.ReservationWhereUniqueInput
+  create: Prisma.XOR<Prisma.ReservationCreateWithoutMatchInput, Prisma.ReservationUncheckedCreateWithoutMatchInput>
+}
+
+export type ReservationUpsertWithoutMatchInput = {
+  update: Prisma.XOR<Prisma.ReservationUpdateWithoutMatchInput, Prisma.ReservationUncheckedUpdateWithoutMatchInput>
+  create: Prisma.XOR<Prisma.ReservationCreateWithoutMatchInput, Prisma.ReservationUncheckedCreateWithoutMatchInput>
+  where?: Prisma.ReservationWhereInput
+}
+
+export type ReservationUpdateToOneWithWhereWithoutMatchInput = {
+  where?: Prisma.ReservationWhereInput
+  data: Prisma.XOR<Prisma.ReservationUpdateWithoutMatchInput, Prisma.ReservationUncheckedUpdateWithoutMatchInput>
+}
+
+export type ReservationUpdateWithoutMatchInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  startsAtUtc?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAtUtc?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  field?: Prisma.TerenUpdateOneRequiredWithoutReservationsNestedInput
+  player?: Prisma.UserUpdateOneRequiredWithoutReservationsNestedInput
+  availability?: Prisma.FieldAvailabilityUpdateOneWithoutReservationsNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutReservationNestedInput
+}
+
+export type ReservationUncheckedUpdateWithoutMatchInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fieldId?: Prisma.StringFieldUpdateOperationsInput | string
+  playerId?: Prisma.StringFieldUpdateOperationsInput | string
+  availabilityId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  startsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  endsAt?: Prisma.IntFieldUpdateOperationsInput | number
+  startsAtUtc?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endsAtUtc?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutReservationNestedInput
 }
 
 export type ReservationCreateManyPlayerInput = {
@@ -970,6 +1081,7 @@ export type ReservationUpdateWithoutPlayerInput = {
   field?: Prisma.TerenUpdateOneRequiredWithoutReservationsNestedInput
   availability?: Prisma.FieldAvailabilityUpdateOneWithoutReservationsNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutReservationNestedInput
+  match?: Prisma.MatchUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationUncheckedUpdateWithoutPlayerInput = {
@@ -985,6 +1097,7 @@ export type ReservationUncheckedUpdateWithoutPlayerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutReservationNestedInput
+  match?: Prisma.MatchUncheckedUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationUncheckedUpdateManyWithoutPlayerInput = {
@@ -1028,6 +1141,7 @@ export type ReservationUpdateWithoutFieldInput = {
   player?: Prisma.UserUpdateOneRequiredWithoutReservationsNestedInput
   availability?: Prisma.FieldAvailabilityUpdateOneWithoutReservationsNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutReservationNestedInput
+  match?: Prisma.MatchUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationUncheckedUpdateWithoutFieldInput = {
@@ -1043,6 +1157,7 @@ export type ReservationUncheckedUpdateWithoutFieldInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutReservationNestedInput
+  match?: Prisma.MatchUncheckedUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationUncheckedUpdateManyWithoutFieldInput = {
@@ -1086,6 +1201,7 @@ export type ReservationUpdateWithoutAvailabilityInput = {
   field?: Prisma.TerenUpdateOneRequiredWithoutReservationsNestedInput
   player?: Prisma.UserUpdateOneRequiredWithoutReservationsNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutReservationNestedInput
+  match?: Prisma.MatchUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationUncheckedUpdateWithoutAvailabilityInput = {
@@ -1101,6 +1217,7 @@ export type ReservationUncheckedUpdateWithoutAvailabilityInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   decidedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutReservationNestedInput
+  match?: Prisma.MatchUncheckedUpdateOneWithoutReservationNestedInput
 }
 
 export type ReservationUncheckedUpdateManyWithoutAvailabilityInput = {
@@ -1165,6 +1282,7 @@ export type ReservationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   player?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   availability?: boolean | Prisma.Reservation$availabilityArgs<ExtArgs>
   notifications?: boolean | Prisma.Reservation$notificationsArgs<ExtArgs>
+  match?: boolean | Prisma.Reservation$matchArgs<ExtArgs>
   _count?: boolean | Prisma.ReservationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reservation"]>
 
@@ -1225,6 +1343,7 @@ export type ReservationInclude<ExtArgs extends runtime.Types.Extensions.Internal
   player?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   availability?: boolean | Prisma.Reservation$availabilityArgs<ExtArgs>
   notifications?: boolean | Prisma.Reservation$notificationsArgs<ExtArgs>
+  match?: boolean | Prisma.Reservation$matchArgs<ExtArgs>
   _count?: boolean | Prisma.ReservationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ReservationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1245,6 +1364,7 @@ export type $ReservationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     player: Prisma.$UserPayload<ExtArgs>
     availability: Prisma.$FieldAvailabilityPayload<ExtArgs> | null
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    match: Prisma.$MatchPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1657,6 +1777,7 @@ export interface Prisma__ReservationClient<T, Null = never, ExtArgs extends runt
   player<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   availability<T extends Prisma.Reservation$availabilityArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Reservation$availabilityArgs<ExtArgs>>): Prisma.Prisma__FieldAvailabilityClient<runtime.Types.Result.GetResult<Prisma.$FieldAvailabilityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notifications<T extends Prisma.Reservation$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Reservation$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  match<T extends Prisma.Reservation$matchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Reservation$matchArgs<ExtArgs>>): Prisma.Prisma__MatchClient<runtime.Types.Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2139,6 +2260,25 @@ export type Reservation$notificationsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * Reservation.match
+ */
+export type Reservation$matchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Match
+   */
+  select?: Prisma.MatchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Match
+   */
+  omit?: Prisma.MatchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchInclude<ExtArgs> | null
+  where?: Prisma.MatchWhereInput
 }
 
 /**

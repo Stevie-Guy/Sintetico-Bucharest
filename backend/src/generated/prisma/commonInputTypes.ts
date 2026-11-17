@@ -318,6 +318,23 @@ export type EnumNotificationTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumNotificationTypeFilter<$PrismaModel>
 }
 
+export type EnumMatchAgeCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.MatchAgeCategory | Prisma.EnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.MatchAgeCategory[] | Prisma.ListEnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MatchAgeCategory[] | Prisma.ListEnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMatchAgeCategoryFilter<$PrismaModel> | $Enums.MatchAgeCategory
+}
+
+export type EnumMatchAgeCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MatchAgeCategory | Prisma.EnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.MatchAgeCategory[] | Prisma.ListEnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MatchAgeCategory[] | Prisma.ListEnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMatchAgeCategoryWithAggregatesFilter<$PrismaModel> | $Enums.MatchAgeCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMatchAgeCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMatchAgeCategoryFilter<$PrismaModel>
+}
+
 export type NestedUuidFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -629,6 +646,23 @@ export type NestedEnumNotificationTypeWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumNotificationTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumNotificationTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumMatchAgeCategoryFilter<$PrismaModel = never> = {
+  equals?: $Enums.MatchAgeCategory | Prisma.EnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.MatchAgeCategory[] | Prisma.ListEnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MatchAgeCategory[] | Prisma.ListEnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMatchAgeCategoryFilter<$PrismaModel> | $Enums.MatchAgeCategory
+}
+
+export type NestedEnumMatchAgeCategoryWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MatchAgeCategory | Prisma.EnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  in?: $Enums.MatchAgeCategory[] | Prisma.ListEnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MatchAgeCategory[] | Prisma.ListEnumMatchAgeCategoryFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMatchAgeCategoryWithAggregatesFilter<$PrismaModel> | $Enums.MatchAgeCategory
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMatchAgeCategoryFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMatchAgeCategoryFilter<$PrismaModel>
 }
 
 
