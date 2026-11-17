@@ -1,9 +1,10 @@
 import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiError } from "@/api/client";
 import { FieldError, FormError, formStyles, PasswordInput, PrimaryButton } from "@/components/form";
+import { LinkButton, Title } from "@/components/ui";
 import { useAuth } from "@/features/auth/auth-context";
 import { colors } from "@/theme";
 
@@ -20,7 +21,7 @@ export default function LoginScreen() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
 
-  if (state.status === "signedIn") return <Redirect href="/account" />;
+  if (state.status === "signedIn") return <Redirect href="/home" />;
 
   const canSubmit = email.trim().length > 0 && password.length > 0;
 
@@ -33,7 +34,7 @@ export default function LoginScreen() {
 
     try {
       await signIn(email, password);
-      router.replace("/account");
+      router.replace("/home");
     } catch (err) {
       if (err instanceof ApiError) {
         setFieldErrors(err.fields);
@@ -50,6 +51,7 @@ export default function LoginScreen() {
     <SafeAreaView style={formStyles.safe} edges={["bottom"]}>
       <KeyboardAvoidingView style={formStyles.flex} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <ScrollView contentContainerStyle={formStyles.content} keyboardShouldPersistTaps="handled">
+          <Title subtitle="Intră în cont ca să-ți vezi meciurile și rezervările.">Bine ai revenit 👋</Title>
           <Text style={formStyles.label}>Email</Text>
           <TextInput
             style={[formStyles.input, fieldErrors.email && formStyles.inputError]}
@@ -82,8 +84,17 @@ export default function LoginScreen() {
           <FormError message={formError} />
 
           <PrimaryButton label="Autentificare" onPress={handleSubmit} disabled={!canSubmit} loading={submitting} />
+          <View style={styles.switchRow}>
+            <Text style={styles.switchText}>Nu ai cont?</Text>
+            <LinkButton label="Creează unul" onPress={() => router.replace("/register")} />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  switchRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 12 },
+  switchText: { fontSize: 15, color: colors.textMuted },
+});

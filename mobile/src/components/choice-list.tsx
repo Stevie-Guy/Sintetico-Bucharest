@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { colors } from "@/theme";
+import { colors, radius } from "@/theme";
 
 /** Listă de opțiuni din care se alege una singură (ex. tipul de cont, perspectiva adminului). */
 
@@ -49,12 +49,12 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     gap: 12,
     borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
-    padding: 14,
-    backgroundColor: colors.surface,
+    borderColor: colors.borderLight,
+    borderRadius: radius.md,
+    padding: 16,
+    backgroundColor: colors.background,
   },
-  cardSelected: { borderColor: colors.primary, backgroundColor: colors.primaryLight },
+  cardSelected: { borderColor: colors.primary, borderWidth: 1.5, backgroundColor: "#F3FDF6" },
   radio: {
     width: 22,
     height: 22,

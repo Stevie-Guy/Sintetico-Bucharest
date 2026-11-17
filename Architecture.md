@@ -30,7 +30,7 @@ backend/
     errors/             AppError: erori cu mesaj pentru utilizator
     middleware/         CORS, autentificare (requireAuth), roluri (requireRole), validarea corpului cererii (Zod), tratarea erorilor
     modules/<domeniu>/  câte un folder pe domeniu: rute, scheme Zod, servicii
-    scripts/            comenzi rulate manual cu `npm run` (ex. create-admin), excluse din coverage
+    scripts/            comenzi rulate manual cu `npm run` (ex. create-admin, db:seed pentru datele demo), excluse din coverage
     generated/prisma/   clientul Prisma generat (nu se urcă pe GitHub)
   tests/
     unit/               logică pură, fără bază de date
@@ -40,9 +40,13 @@ mobile/
   src/
     app/                ecranele (Expo Router: fiecare fișier e o rută)
     api/                clientul HTTP
-    components/         componente comune (formulare, butoane, liste de opțiuni)
+    components/         componente comune (formulare, butoane, liste de opțiuni, carduri, filtre, selector de zile, bloc de dată, bară de progres, avatar)
     features/<domeniu>/ apeluri API și logică pe domenii
+    lib/                utilitare fără UI: date și ore (fusul Europe/Bucharest), etichete pentru enum-uri, useResource
+    theme.ts            culorile, razele colțurilor și umbra cardurilor; ecranele nu folosesc culori scrise direct
 ```
+
+Convenții pentru interfața mobilă: ecranele se compun din componentele din `components/ui.tsx` și `components/form.tsx`. Acțiunea principală a unui ecran stă în `footer`-ul lui `Screen`, fixată jos. Iconițele sunt emoji, ca să nu fie nevoie de o bibliotecă de iconițe.
 
 # Versiuni folosite
 
@@ -63,6 +67,8 @@ mobile/
 - Rutele protejate folosesc middleware-ul `requireAuth` și cer antetul `Authorization: Bearer <token>`. Fără sesiune validă răspund cu 401. Token-ul se obține de la `POST /api/auth/login`.
 - Rutele permise doar unor roluri adaugă `requireRole(...)` după `requireAuth`. Un rol nepermis primește 403 cu codul `FORBIDDEN`. Regulile de moștenire între roluri stau într-un singur loc: `hasRole` din `modules/auth/roles.ts`.
 - În aplicația mobilă, ecranele aleg ce afișează după `activeRole` din `useAuth()`, nu după `user.role`, ca Administratorul să poată schimba perspectiva.
+- În aplicația mobilă, navigarea e un singur `Stack` (Expo Router). După autentificare se ajunge la `/home`, care afișează meniul pentru `activeRole`. Ecranele care cer sesiune folosesc `useSession()` și redirecționează la `/` fără sesiune. Datele se încarcă cu `useResource` (`src/lib/`), care le reîncarcă la fiecare revenire pe ecran.
+- În aplicația mobilă, orele se afișează mereu în fusul `Europe/Bucharest` (`src/lib/datetime.ts`), indiferent de fusul telefonului, ca să coincidă cu programul terenurilor din backend.
 - În aplicația mobilă, token-ul stă în `expo-secure-store`; în browser (`npm run web`), în `localStorage`, doar pentru dezvoltare.
 - CORS: API-ul acceptă cereri din browser doar de la originile din `CORS_ORIGINS`. Aplicația de pe telefon nu are nevoie de CORS; e folosit pentru varianta web a aplicației (`npm run web` în `mobile/`).
 - Listele se paginează cu `?page=&pageSize=` (implicit 1 și 20, maxim 100; `paginationShape` din `modules/reservations/reservation.schemas.ts`) și răspund cu `{ <entități>, page, pageSize, hasMore }`.

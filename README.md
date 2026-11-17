@@ -95,6 +95,7 @@ npm run dev            # pornește API-ul pe http://localhost:3000 (se reporneș
 | `npm run typecheck` | Verifică tipurile TypeScript |
 | `npm run db:migrate -- --name <descriere>` | Creează o migrație nouă după o modificare în `schema.prisma` |
 | `npm run create-admin` | Creează contul de Administrator din `ADMIN_EMAIL` și `ADMIN_PASSWORD` (în `.env`) |
+| `npm run db:seed` | Șterge și recreează datele demo în baza de dezvoltare (vezi „Date demo”) |
 
 Testele de integrare aplică singure migrațiile pe `db-test` înainte să ruleze.
 
@@ -103,6 +104,21 @@ Testele de integrare aplică singure migrațiile pe `db-test` înainte să rulez
 Contul de Administrator nu se poate crea din aplicație. Setează `ADMIN_EMAIL` și `ADMIN_PASSWORD` în `.env`, apoi rulează `npm run create-admin` în `backend/`. Comanda se poate rula de mai multe ori. Dacă emailul are deja cont, contul devine Administrator, primește parola din `.env` și e deconectat de pe toate dispozitivele.
 
 În aplicație, Administratorul alege din ecranul „Contul meu” din perspectiva cărui tip de cont vede aplicația.
+
+### Date demo (pentru prezentare)
+
+`npm run db:seed` (în `backend/`) umple baza de dezvoltare cu date demo: 19 conturi, 6 terenuri în toate sectoarele, cu program și intervale de la acum 2 zile până peste 7 zile, rezervări în toate stările, notificări și 9 meciuri viitoare (unul plin, unul pentru veterani și unul U18). Datele se calculează față de ziua curentă, deci rulează comanda din nou înainte de prezentare. La fiecare rulare, conturile `@demo.sintetico.ro` se șterg și se creează din nou. Celelalte conturi rămân neatinse.
+
+Toate conturile demo au parola `Sintetico1!`:
+
+| Cont | Rol |
+|---|---|
+| `andrei.popescu@demo.sintetico.ro` | Jucător (Seniori): meciuri, rezervări în toate stările, notificări necitite |
+| `ion.ionescu@demo.sintetico.ro` | Administrator de teren: 3 terenuri, cereri de rezervare de aprobat |
+| `maria.dobre@demo.sintetico.ro` | Administrator de teren: alte 3 terenuri |
+| `radu.marin@demo.sintetico.ro` | Organizator de campionat |
+| `dan.voicu@demo.sintetico.ro` | Jucător (Veterani 35+) |
+| `luca.preda@demo.sintetico.ro` | Jucător (U18) |
 
 ## Aplicația mobilă
 

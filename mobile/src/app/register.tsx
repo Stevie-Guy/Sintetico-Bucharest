@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiError } from "@/api/client";
 import { ChoiceList } from "@/components/choice-list";
 import { FieldError, FormError, formStyles, PasswordInput, PrimaryButton } from "@/components/form";
+import { IconBubble, LinkButton, Title } from "@/components/ui";
 import { register, registrationRoles, roleLabel, type RegistrationRole, type User } from "@/features/auth/api";
 import { isPasswordValid, passwordRules } from "@/features/auth/password-rules";
 import { colors } from "@/theme";
@@ -58,6 +59,7 @@ export default function RegisterScreen() {
     return (
       <SafeAreaView style={formStyles.safe} edges={["bottom"]}>
         <View style={styles.success}>
+          <IconBubble icon="🎉" size={80} />
           <Text style={styles.successTitle}>Contul a fost creat</Text>
           <Text style={styles.successText}>
             Contul de {roleLabel(createdUser.role).toLowerCase()} pentru {createdUser.email} este gata.
@@ -75,6 +77,19 @@ export default function RegisterScreen() {
     <SafeAreaView style={formStyles.safe} edges={["bottom"]}>
       <KeyboardAvoidingView style={formStyles.flex} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <ScrollView contentContainerStyle={formStyles.content} keyboardShouldPersistTaps="handled">
+          <Title subtitle="Durează mai puțin de un minut.">Creează-ți contul ⚽</Title>
+
+          <Text style={formStyles.label}>Ce fel de cont vrei?</Text>
+          <ChoiceList
+            options={registrationRoles}
+            selected={role}
+            onSelect={(value) => {
+              setRole(value);
+              setFieldErrors((e) => ({ ...e, role: undefined }));
+            }}
+          />
+          <FieldError messages={fieldErrors.role} />
+
           <Text style={formStyles.label}>Email</Text>
           <TextInput
             style={[formStyles.input, fieldErrors.email && formStyles.inputError]}
@@ -129,20 +144,13 @@ export default function RegisterScreen() {
           />
           <FieldError messages={showMismatch ? ["Parolele nu coincid."] : undefined} />
 
-          <Text style={formStyles.label}>Tip de cont</Text>
-          <ChoiceList
-            options={registrationRoles}
-            selected={role}
-            onSelect={(value) => {
-              setRole(value);
-              setFieldErrors((e) => ({ ...e, role: undefined }));
-            }}
-          />
-          <FieldError messages={fieldErrors.role} />
-
           <FormError message={formError} />
 
           <PrimaryButton label="Creează cont" onPress={handleSubmit} disabled={!canSubmit} loading={submitting} />
+          <View style={styles.switchRow}>
+            <Text style={styles.switchText}>Ai deja cont?</Text>
+            <LinkButton label="Autentifică-te" onPress={() => router.replace("/login")} />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -150,12 +158,13 @@ export default function RegisterScreen() {
 }
 
 const styles = StyleSheet.create({
-  rules: { marginTop: 10, gap: 4 },
+  rules: { marginTop: 10, gap: 4, padding: 12, borderRadius: 12, backgroundColor: colors.background },
   rule: { fontSize: 14, color: colors.textMuted },
-  ruleOk: { color: colors.primary },
+  ruleOk: { color: colors.primary, fontWeight: "600" },
+  switchRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 12 },
+  switchText: { fontSize: 15, color: colors.textMuted },
 
-
-  success: { flex: 1, justifyContent: "center", padding: 24, gap: 12, width: "100%", maxWidth: 520, alignSelf: "center" },
-  successTitle: { fontSize: 26, fontWeight: "800", color: colors.primary },
+  success: { flex: 1, justifyContent: "center", alignItems: "stretch", padding: 24, gap: 12, width: "100%", maxWidth: 520, alignSelf: "center" },
+  successTitle: { fontSize: 26, fontWeight: "800", color: colors.primary, marginTop: 8 },
   successText: { fontSize: 16, lineHeight: 23, color: colors.text },
 });
