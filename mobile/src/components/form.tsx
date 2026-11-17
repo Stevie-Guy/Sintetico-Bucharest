@@ -1,6 +1,16 @@
 import { useState } from "react";
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from "react-native";
-import { colors } from "@/theme";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  type StyleProp,
+  type TextInputProps,
+  type ViewStyle,
+} from "react-native";
+import { colors, radius } from "@/theme";
 
 /** Componente comune pentru formulare (creare cont, autentificare etc.). */
 
@@ -26,9 +36,17 @@ export function FormError({ message }: { message: string | null }) {
   );
 }
 
-type ButtonProps = { label: string; onPress: () => void; disabled?: boolean; loading?: boolean };
+type ButtonProps = {
+  label: string;
+  onPress: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+  /** Emoji afișat înaintea textului. */
+  icon?: string;
+  style?: StyleProp<ViewStyle>;
+};
 
-export function PrimaryButton({ label, onPress, disabled, loading }: ButtonProps) {
+export function PrimaryButton({ label, onPress, disabled, loading, icon, style }: ButtonProps) {
   return (
     <Pressable
       onPress={onPress}
@@ -39,26 +57,40 @@ export function PrimaryButton({ label, onPress, disabled, loading }: ButtonProps
         formStyles.button,
         pressed && formStyles.buttonPressed,
         disabled && !loading && formStyles.buttonDisabled,
+        style,
       ]}
     >
-      {loading ? <ActivityIndicator color="#FFFFFF" /> : <Text style={formStyles.buttonText}>{label}</Text>}
+      {loading ? (
+        <ActivityIndicator color="#FFFFFF" />
+      ) : (
+        <Text style={formStyles.buttonText}>{icon ? `${icon}  ${label}` : label}</Text>
+      )}
     </Pressable>
   );
 }
 
-export function SecondaryButton({ label, onPress, disabled, loading }: ButtonProps) {
+/** Buton cu contur; `danger` îl colorează în roșu (ex. Deconectare, Respinge). */
+export function SecondaryButton({ label, onPress, disabled, loading, icon, style, danger }: ButtonProps & { danger?: boolean }) {
+  const color = danger ? colors.error : colors.primary;
   return (
     <Pressable
       onPress={onPress}
       disabled={disabled || loading}
       accessibilityRole="button"
       accessibilityState={{ disabled: disabled || loading, busy: loading }}
-      style={({ pressed }) => [formStyles.secondaryButton, pressed && formStyles.secondaryButtonPressed]}
+      style={({ pressed }) => [
+        formStyles.secondaryButton,
+        { borderColor: disabled && !loading ? colors.border : color },
+        pressed && { backgroundColor: danger ? colors.errorLight : colors.primaryLight },
+        style,
+      ]}
     >
       {loading ? (
-        <ActivityIndicator color={colors.primary} />
+        <ActivityIndicator color={color} />
       ) : (
-        <Text style={formStyles.secondaryButtonText}>{label}</Text>
+        <Text style={[formStyles.secondaryButtonText, { color: disabled ? colors.disabled : color }]}>
+          {icon ? `${icon}  ${label}` : label}
+        </Text>
       )}
     </Pressable>
   );
@@ -94,13 +126,13 @@ export const formStyles = StyleSheet.create({
   flex: { flex: 1 },
   content: { padding: 20, paddingBottom: 40, width: "100%", maxWidth: 520, alignSelf: "center" },
 
-  label: { fontSize: 15, fontWeight: "600", color: colors.text, marginTop: 20, marginBottom: 8 },
+  label: { fontSize: 14, fontWeight: "700", color: colors.text, marginTop: 18, marginBottom: 8 },
   input: {
     borderWidth: 1,
     borderColor: colors.border,
-    borderRadius: 10,
+    borderRadius: radius.md,
     paddingHorizontal: 14,
-    minHeight: 50,
+    minHeight: 52,
     fontSize: 16,
     color: colors.text,
     backgroundColor: colors.background,
@@ -116,35 +148,42 @@ export const formStyles = StyleSheet.create({
   fieldErrorText: { color: colors.error, fontSize: 14 },
   formError: {
     marginTop: 20,
-    padding: 12,
-    borderRadius: 10,
+    padding: 14,
+    borderRadius: radius.md,
+    overflow: "hidden",
     backgroundColor: colors.errorLight,
     color: colors.error,
     fontSize: 15,
   },
 
   button: {
-    marginTop: 28,
+    marginTop: 24,
     backgroundColor: colors.primary,
-    borderRadius: 12,
-    minHeight: 52,
+    borderRadius: radius.md,
+    minHeight: 54,
+    paddingHorizontal: 16,
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: colors.primary,
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
   },
   buttonPressed: { backgroundColor: colors.primaryPressed },
-  buttonDisabled: { backgroundColor: colors.disabled },
+  buttonDisabled: { backgroundColor: colors.disabled, shadowOpacity: 0, elevation: 0 },
   buttonText: { color: "#FFFFFF", fontSize: 17, fontWeight: "700" },
 
   secondaryButton: {
     marginTop: 12,
     borderWidth: 1.5,
     borderColor: colors.primary,
-    borderRadius: 12,
+    borderRadius: radius.md,
     minHeight: 52,
+    paddingHorizontal: 12,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colors.background,
   },
-  secondaryButtonPressed: { backgroundColor: colors.primaryLight },
   secondaryButtonText: { color: colors.primary, fontSize: 17, fontWeight: "700" },
 });

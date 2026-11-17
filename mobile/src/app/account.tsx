@@ -1,14 +1,14 @@
 import { Redirect } from "expo-router";
 import { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, Text, View } from "react-native";
 import { ChoiceList } from "@/components/choice-list";
-import { formStyles, SecondaryButton } from "@/components/form";
+import { SecondaryButton } from "@/components/form";
+import { Avatar, Badge, Card, Divider, Hint, InfoRow, Screen, SectionTitle } from "@/components/ui";
 import { roleLabel, viewRoles } from "@/features/auth/api";
 import { useAuth } from "@/features/auth/auth-context";
 import { colors } from "@/theme";
 
-// US-02: ecranul la care ajunge utilizatorul după autentificare; de aici se poate deconecta oricând.
+// US-02: datele contului; de aici utilizatorul se poate deconecta oricând.
 // Administratorul alege tot de aici din perspectiva cărui rol vede aplicația.
 export default function AccountScreen() {
   const { state, activeRole, setActiveRole, signOut } = useAuth();
@@ -18,6 +18,7 @@ export default function AccountScreen() {
   if (state.status !== "signedIn" || !activeRole) return <Redirect href="/" />;
 
   const isAdmin = state.user.role === "ADMIN";
+  const name = state.user.email.split("@")[0];
 
   async function handleSignOut() {
     setSigningOut(true);
@@ -25,49 +26,38 @@ export default function AccountScreen() {
   }
 
   return (
-    <SafeAreaView style={formStyles.safe} edges={["bottom"]}>
-      <ScrollView contentContainerStyle={formStyles.content}>
-        <Text style={styles.greeting}>Ești autentificat</Text>
-
-        <View style={styles.card}>
-          <Text style={styles.cardLabel}>Email</Text>
-          <Text style={styles.cardValue}>{state.user.email}</Text>
-
-          <Text style={[styles.cardLabel, styles.spaced]}>Tip de cont</Text>
-          <Text style={styles.cardValue}>{roleLabel(state.user.role)}</Text>
-        </View>
-
-        {isAdmin && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Vezi aplicația ca</Text>
-            <Text style={styles.sectionHint}>
-              Alege un tip de cont ca să vezi aplicația din perspectiva lui. Ai acces la toate acțiunile
-              acelui rol.
+    <Screen>
+      <Card>
+        <View style={styles.header}>
+          <Avatar name={name} size={64} highlighted />
+          <View style={styles.flex}>
+            <Text style={styles.name} numberOfLines={1}>
+              {name}
             </Text>
-            <ChoiceList options={viewRoles} selected={activeRole} onSelect={setActiveRole} />
+            <Badge label={roleLabel(state.user.role)} tone="success" />
           </View>
-        )}
+        </View>
+        <Divider />
+        <InfoRow icon="✉️" label="Email" value={state.user.email} />
+        <InfoRow icon="🪪" label="Tip de cont" value={roleLabel(state.user.role)} />
+      </Card>
 
-        <SecondaryButton label="Deconectare" onPress={handleSignOut} loading={signingOut} />
-      </ScrollView>
-    </SafeAreaView>
+      {isAdmin && (
+        <View>
+          <SectionTitle>Vezi aplicația ca</SectionTitle>
+          <Hint>Alege un tip de cont ca să vezi aplicația din perspectiva lui. Ai acces la toate acțiunile acelui rol.</Hint>
+          <ChoiceList options={viewRoles} selected={activeRole} onSelect={setActiveRole} />
+        </View>
+      )}
+
+      <SecondaryButton label="Deconectare" icon="🚪" danger onPress={handleSignOut} loading={signingOut} style={styles.signOut} />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  greeting: { fontSize: 24, fontWeight: "800", color: colors.text, marginTop: 8, marginBottom: 20 },
-  card: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
-    padding: 16,
-    backgroundColor: colors.surface,
-    marginBottom: 12,
-  },
-  cardLabel: { fontSize: 13, fontWeight: "600", color: colors.textMuted, textTransform: "uppercase" },
-  cardValue: { fontSize: 17, color: colors.text, marginTop: 4 },
-  spaced: { marginTop: 16 },
-  section: { marginTop: 12, marginBottom: 12 },
-  sectionTitle: { fontSize: 18, fontWeight: "700", color: colors.text },
-  sectionHint: { fontSize: 14, lineHeight: 20, color: colors.textMuted, marginTop: 4, marginBottom: 12 },
+  header: { flexDirection: "row", alignItems: "center", gap: 14, marginBottom: 4 },
+  flex: { flex: 1, gap: 6 },
+  name: { fontSize: 20, fontWeight: "800", color: colors.text },
+  signOut: { marginTop: 28 },
 });
