@@ -57,7 +57,9 @@ export const ModelName = {
   FieldOperatingHours: 'FieldOperatingHours',
   FieldAvailability: 'FieldAvailability',
   Reservation: 'Reservation',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  Match: 'Match',
+  MatchParticipant: 'MatchParticipant'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -171,6 +173,29 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const MatchScalarFieldEnum = {
+  id: 'id',
+  reservationId: 'reservationId',
+  creatorId: 'creatorId',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  maxPlayers: 'maxPlayers',
+  ageCategory: 'ageCategory',
+  createdAt: 'createdAt'
+} as const
+
+export type MatchScalarFieldEnum = (typeof MatchScalarFieldEnum)[keyof typeof MatchScalarFieldEnum]
+
+
+export const MatchParticipantScalarFieldEnum = {
+  matchId: 'matchId',
+  userId: 'userId',
+  joinedAt: 'joinedAt'
+} as const
+
+export type MatchParticipantScalarFieldEnum = (typeof MatchParticipantScalarFieldEnum)[keyof typeof MatchParticipantScalarFieldEnum]
 
 
 export const SortOrder = {

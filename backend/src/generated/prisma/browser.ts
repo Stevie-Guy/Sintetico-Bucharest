@@ -52,3 +52,13 @@ export type Reservation = Prisma.ReservationModel
  * 
  */
 export type Notification = Prisma.NotificationModel
+/**
+ * Model Match
+ * 
+ */
+export type Match = Prisma.MatchModel
+/**
+ * Model MatchParticipant
+ * 
+ */
+export type MatchParticipant = Prisma.MatchParticipantModel

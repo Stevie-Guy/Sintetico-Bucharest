@@ -1,4 +1,5 @@
 import express from "express";
+import { matchRouter } from "./modules/matches/match.routes";
 import { reservationRouter } from "./modules/reservations/reservation.routes";
 import { notificationRouter } from "./modules/notifications/notification.routes";
 import { env } from "./config/env";
@@ -24,6 +25,7 @@ export function createApp() {
   app.use("/api/terenuri", terenRoutes);
   app.use("/api/reservations", reservationRouter);
   app.use("/api/notifications", notificationRouter);
+  app.use("/api/matches", matchRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

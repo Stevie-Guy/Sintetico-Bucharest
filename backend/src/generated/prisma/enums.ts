@@ -65,3 +65,14 @@ export const NotificationType = {
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const MatchAgeCategory = {
+  U12: 'U12',
+  U15: 'U15',
+  U18: 'U18',
+  SENIOR: 'SENIOR',
+  VETERANS_35_PLUS: 'VETERANS_35_PLUS'
+} as const
+
+export type MatchAgeCategory = (typeof MatchAgeCategory)[keyof typeof MatchAgeCategory]

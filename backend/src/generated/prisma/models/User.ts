@@ -234,6 +234,8 @@ export type UserWhereInput = {
   terenuri?: Prisma.TerenListRelationFilter
   reservations?: Prisma.ReservationListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  createdMatches?: Prisma.MatchListRelationFilter
+  matchParticipations?: Prisma.MatchParticipantListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -252,6 +254,8 @@ export type UserOrderByWithRelationInput = {
   terenuri?: Prisma.TerenOrderByRelationAggregateInput
   reservations?: Prisma.ReservationOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  createdMatches?: Prisma.MatchOrderByRelationAggregateInput
+  matchParticipations?: Prisma.MatchParticipantOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -273,6 +277,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   terenuri?: Prisma.TerenListRelationFilter
   reservations?: Prisma.ReservationListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  createdMatches?: Prisma.MatchListRelationFilter
+  matchParticipations?: Prisma.MatchParticipantListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -325,6 +331,8 @@ export type UserCreateInput = {
   terenuri?: Prisma.TerenCreateNestedManyWithoutAdminInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutPlayerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -343,6 +351,8 @@ export type UserUncheckedCreateInput = {
   terenuri?: Prisma.TerenUncheckedCreateNestedManyWithoutAdminInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutPlayerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchUncheckedCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -361,6 +371,8 @@ export type UserUpdateInput = {
   terenuri?: Prisma.TerenUpdateManyWithoutAdminNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutPlayerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -379,6 +391,8 @@ export type UserUncheckedUpdateInput = {
   terenuri?: Prisma.TerenUncheckedUpdateManyWithoutAdminNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutPlayerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUncheckedUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -554,6 +568,34 @@ export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
 }
 
+export type UserCreateNestedOneWithoutCreatedMatchesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedMatchesInput, Prisma.UserUncheckedCreateWithoutCreatedMatchesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedMatchesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCreatedMatchesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedMatchesInput, Prisma.UserUncheckedCreateWithoutCreatedMatchesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedMatchesInput
+  upsert?: Prisma.UserUpsertWithoutCreatedMatchesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedMatchesInput, Prisma.UserUpdateWithoutCreatedMatchesInput>, Prisma.UserUncheckedUpdateWithoutCreatedMatchesInput>
+}
+
+export type UserCreateNestedOneWithoutMatchParticipationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMatchParticipationsInput, Prisma.UserUncheckedCreateWithoutMatchParticipationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMatchParticipationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutMatchParticipationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMatchParticipationsInput, Prisma.UserUncheckedCreateWithoutMatchParticipationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMatchParticipationsInput
+  upsert?: Prisma.UserUpsertWithoutMatchParticipationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMatchParticipationsInput, Prisma.UserUpdateWithoutMatchParticipationsInput>, Prisma.UserUncheckedUpdateWithoutMatchParticipationsInput>
+}
+
 export type UserCreateWithoutSessionsInput = {
   id?: string
   email: string
@@ -569,6 +611,8 @@ export type UserCreateWithoutSessionsInput = {
   terenuri?: Prisma.TerenCreateNestedManyWithoutAdminInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutPlayerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -586,6 +630,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   terenuri?: Prisma.TerenUncheckedCreateNestedManyWithoutAdminInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutPlayerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchUncheckedCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -619,6 +665,8 @@ export type UserUpdateWithoutSessionsInput = {
   terenuri?: Prisma.TerenUpdateManyWithoutAdminNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutPlayerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -636,6 +684,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   terenuri?: Prisma.TerenUncheckedUpdateManyWithoutAdminNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutPlayerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUncheckedUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTerenuriInput = {
@@ -653,6 +703,8 @@ export type UserCreateWithoutTerenuriInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutPlayerInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTerenuriInput = {
@@ -670,6 +722,8 @@ export type UserUncheckedCreateWithoutTerenuriInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutPlayerInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchUncheckedCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTerenuriInput = {
@@ -703,6 +757,8 @@ export type UserUpdateWithoutTerenuriInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutPlayerNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTerenuriInput = {
@@ -720,6 +776,8 @@ export type UserUncheckedUpdateWithoutTerenuriInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutPlayerNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUncheckedUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReservationsInput = {
@@ -737,6 +795,8 @@ export type UserCreateWithoutReservationsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   terenuri?: Prisma.TerenCreateNestedManyWithoutAdminInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReservationsInput = {
@@ -754,6 +814,8 @@ export type UserUncheckedCreateWithoutReservationsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   terenuri?: Prisma.TerenUncheckedCreateNestedManyWithoutAdminInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchUncheckedCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReservationsInput = {
@@ -787,6 +849,8 @@ export type UserUpdateWithoutReservationsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   terenuri?: Prisma.TerenUpdateManyWithoutAdminNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReservationsInput = {
@@ -804,6 +868,8 @@ export type UserUncheckedUpdateWithoutReservationsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   terenuri?: Prisma.TerenUncheckedUpdateManyWithoutAdminNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUncheckedUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -821,6 +887,8 @@ export type UserCreateWithoutNotificationsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   terenuri?: Prisma.TerenCreateNestedManyWithoutAdminInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutPlayerInput
+  createdMatches?: Prisma.MatchCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -838,6 +906,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   terenuri?: Prisma.TerenUncheckedCreateNestedManyWithoutAdminInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutPlayerInput
+  createdMatches?: Prisma.MatchUncheckedCreateNestedManyWithoutCreatorInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -871,6 +941,8 @@ export type UserUpdateWithoutNotificationsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   terenuri?: Prisma.TerenUpdateManyWithoutAdminNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutPlayerNestedInput
+  createdMatches?: Prisma.MatchUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -888,6 +960,192 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   terenuri?: Prisma.TerenUncheckedUpdateManyWithoutAdminNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutPlayerNestedInput
+  createdMatches?: Prisma.MatchUncheckedUpdateManyWithoutCreatorNestedInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCreatedMatchesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role: $Enums.UserRole
+  name?: string | null
+  dateOfBirth?: Date | string | null
+  preferredPosition?: $Enums.PlayerPosition | null
+  dominantFoot?: $Enums.DominantFoot | null
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  terenuri?: Prisma.TerenCreateNestedManyWithoutAdminInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutPlayerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  matchParticipations?: Prisma.MatchParticipantCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCreatedMatchesInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role: $Enums.UserRole
+  name?: string | null
+  dateOfBirth?: Date | string | null
+  preferredPosition?: $Enums.PlayerPosition | null
+  dominantFoot?: $Enums.DominantFoot | null
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  terenuri?: Prisma.TerenUncheckedCreateNestedManyWithoutAdminInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutPlayerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCreatedMatchesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedMatchesInput, Prisma.UserUncheckedCreateWithoutCreatedMatchesInput>
+}
+
+export type UserUpsertWithoutCreatedMatchesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedMatchesInput, Prisma.UserUncheckedUpdateWithoutCreatedMatchesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedMatchesInput, Prisma.UserUncheckedCreateWithoutCreatedMatchesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedMatchesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedMatchesInput, Prisma.UserUncheckedUpdateWithoutCreatedMatchesInput>
+}
+
+export type UserUpdateWithoutCreatedMatchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredPosition?: Prisma.NullableEnumPlayerPositionFieldUpdateOperationsInput | $Enums.PlayerPosition | null
+  dominantFoot?: Prisma.NullableEnumDominantFootFieldUpdateOperationsInput | $Enums.DominantFoot | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  terenuri?: Prisma.TerenUpdateManyWithoutAdminNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutPlayerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  matchParticipations?: Prisma.MatchParticipantUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedMatchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredPosition?: Prisma.NullableEnumPlayerPositionFieldUpdateOperationsInput | $Enums.PlayerPosition | null
+  dominantFoot?: Prisma.NullableEnumDominantFootFieldUpdateOperationsInput | $Enums.DominantFoot | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  terenuri?: Prisma.TerenUncheckedUpdateManyWithoutAdminNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutPlayerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  matchParticipations?: Prisma.MatchParticipantUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutMatchParticipationsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role: $Enums.UserRole
+  name?: string | null
+  dateOfBirth?: Date | string | null
+  preferredPosition?: $Enums.PlayerPosition | null
+  dominantFoot?: $Enums.DominantFoot | null
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  terenuri?: Prisma.TerenCreateNestedManyWithoutAdminInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutPlayerInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchCreateNestedManyWithoutCreatorInput
+}
+
+export type UserUncheckedCreateWithoutMatchParticipationsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  role: $Enums.UserRole
+  name?: string | null
+  dateOfBirth?: Date | string | null
+  preferredPosition?: $Enums.PlayerPosition | null
+  dominantFoot?: $Enums.DominantFoot | null
+  phoneNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  terenuri?: Prisma.TerenUncheckedCreateNestedManyWithoutAdminInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutPlayerInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  createdMatches?: Prisma.MatchUncheckedCreateNestedManyWithoutCreatorInput
+}
+
+export type UserCreateOrConnectWithoutMatchParticipationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutMatchParticipationsInput, Prisma.UserUncheckedCreateWithoutMatchParticipationsInput>
+}
+
+export type UserUpsertWithoutMatchParticipationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMatchParticipationsInput, Prisma.UserUncheckedUpdateWithoutMatchParticipationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMatchParticipationsInput, Prisma.UserUncheckedCreateWithoutMatchParticipationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutMatchParticipationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMatchParticipationsInput, Prisma.UserUncheckedUpdateWithoutMatchParticipationsInput>
+}
+
+export type UserUpdateWithoutMatchParticipationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredPosition?: Prisma.NullableEnumPlayerPositionFieldUpdateOperationsInput | $Enums.PlayerPosition | null
+  dominantFoot?: Prisma.NullableEnumDominantFootFieldUpdateOperationsInput | $Enums.DominantFoot | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  terenuri?: Prisma.TerenUpdateManyWithoutAdminNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutPlayerNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUpdateManyWithoutCreatorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutMatchParticipationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferredPosition?: Prisma.NullableEnumPlayerPositionFieldUpdateOperationsInput | $Enums.PlayerPosition | null
+  dominantFoot?: Prisma.NullableEnumDominantFootFieldUpdateOperationsInput | $Enums.DominantFoot | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  terenuri?: Prisma.TerenUncheckedUpdateManyWithoutAdminNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutPlayerNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  createdMatches?: Prisma.MatchUncheckedUpdateManyWithoutCreatorNestedInput
 }
 
 
@@ -900,6 +1158,8 @@ export type UserCountOutputType = {
   terenuri: number
   reservations: number
   notifications: number
+  createdMatches: number
+  matchParticipations: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -907,6 +1167,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   terenuri?: boolean | UserCountOutputTypeCountTerenuriArgs
   reservations?: boolean | UserCountOutputTypeCountReservationsArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  createdMatches?: boolean | UserCountOutputTypeCountCreatedMatchesArgs
+  matchParticipations?: boolean | UserCountOutputTypeCountMatchParticipationsArgs
 }
 
 /**
@@ -947,6 +1209,20 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.NotificationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedMatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MatchWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountMatchParticipationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MatchParticipantWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -964,6 +1240,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   terenuri?: boolean | Prisma.User$terenuriArgs<ExtArgs>
   reservations?: boolean | Prisma.User$reservationsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  createdMatches?: boolean | Prisma.User$createdMatchesArgs<ExtArgs>
+  matchParticipations?: boolean | Prisma.User$matchParticipationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1015,6 +1293,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   terenuri?: boolean | Prisma.User$terenuriArgs<ExtArgs>
   reservations?: boolean | Prisma.User$reservationsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  createdMatches?: boolean | Prisma.User$createdMatchesArgs<ExtArgs>
+  matchParticipations?: boolean | Prisma.User$matchParticipationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1027,6 +1307,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     terenuri: Prisma.$TerenPayload<ExtArgs>[]
     reservations: Prisma.$ReservationPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    createdMatches: Prisma.$MatchPayload<ExtArgs>[]
+    matchParticipations: Prisma.$MatchParticipantPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1438,6 +1720,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   terenuri<T extends Prisma.User$terenuriArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$terenuriArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TerenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reservations<T extends Prisma.User$reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdMatches<T extends Prisma.User$createdMatchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdMatchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  matchParticipations<T extends Prisma.User$matchParticipationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$matchParticipationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1964,6 +2248,54 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.createdMatches
+ */
+export type User$createdMatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Match
+   */
+  select?: Prisma.MatchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Match
+   */
+  omit?: Prisma.MatchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchInclude<ExtArgs> | null
+  where?: Prisma.MatchWhereInput
+  orderBy?: Prisma.MatchOrderByWithRelationInput | Prisma.MatchOrderByWithRelationInput[]
+  cursor?: Prisma.MatchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MatchScalarFieldEnum | Prisma.MatchScalarFieldEnum[]
+}
+
+/**
+ * User.matchParticipations
+ */
+export type User$matchParticipationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MatchParticipant
+   */
+  select?: Prisma.MatchParticipantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MatchParticipant
+   */
+  omit?: Prisma.MatchParticipantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MatchParticipantInclude<ExtArgs> | null
+  where?: Prisma.MatchParticipantWhereInput
+  orderBy?: Prisma.MatchParticipantOrderByWithRelationInput | Prisma.MatchParticipantOrderByWithRelationInput[]
+  cursor?: Prisma.MatchParticipantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MatchParticipantScalarFieldEnum | Prisma.MatchParticipantScalarFieldEnum[]
 }
 
 /**
