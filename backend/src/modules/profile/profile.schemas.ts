@@ -20,7 +20,7 @@ export const updateProfileSchema = z
       .optional(),
     dateOfBirth: dateOfBirthSchema,
     preferredPosition: z.enum(["PORTAR", "FUNDAS", "MIJLOCAS", "ATACANT"]).nullable().optional(),
-    dominantFoot: z.enum(["STANGA", "DREAPTA"]).nullable().optional(),
+    dominantFoot: z.enum(["STANGA", "DREAPTA", "AMBIDEXTRU"]).nullable().optional(),
     phoneNumber: z
       .string()
       .regex(/^\+40\d{9}$/, "Numărul de telefon trebuie să aibă formatul +40 urmat de 9 cifre.")

@@ -15,6 +15,7 @@ import {
   Screen,
   TextField,
 } from "@/components/ui";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { useSession } from "@/features/auth/use-session";
 import { createMatch, listEligibleReservations, type EligibleReservation } from "@/features/matches/api";
 import { getProfile } from "@/features/profile/api";
@@ -43,6 +44,7 @@ function startOptions(r: EligibleReservation): { value: string; label: string }[
 // US-08: crearea unui meci pe baza unei rezervări proprii aprobate.
 export default function NewMatchScreen() {
   const session = useSession();
+  const { requireProfile } = useProfileGate();
   const [reservation, setReservation] = useState<EligibleReservation | null>(null);
   const [startsAt, setStartsAt] = useState<string | null>(null);
   const [maxPlayers, setMaxPlayers] = useState("");
@@ -115,7 +117,7 @@ export default function NewMatchScreen() {
     <Screen
       footer={
         reservation ? (
-          <PrimaryButton label="Creează meciul" icon="⚽" onPress={handleCreate} loading={saving} style={styles.footerButton} />
+          <PrimaryButton label="Creează meciul" icon="⚽" onPress={() => requireProfile("crea un meci", handleCreate)} loading={saving} style={styles.footerButton} />
         ) : undefined
       }
     >

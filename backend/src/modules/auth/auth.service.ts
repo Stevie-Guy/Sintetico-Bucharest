@@ -2,6 +2,7 @@ import { Prisma } from "../../generated/prisma/client";
 import { env } from "../../config/env";
 import { AppError } from "../../errors/app-error";
 import { prisma } from "../../lib/prisma";
+import { isProfileComplete } from "../profile/profile-completeness";
 import type { LoginInput, RegisterInput } from "./auth.schemas";
 import { hashPassword, verifyPassword } from "./password-hasher";
 import { generateSessionToken, hashSessionToken } from "./session-token";
@@ -39,10 +40,13 @@ export async function registerUser(input: RegisterInput): Promise<PublicUser> {
 
 // ---------- US-02: autentificare ----------
 
+/** Utilizatorul sesiunii: datele publice plus dacă profilul are nume și telefon. */
+export type SessionUser = PublicUser & { profileComplete: boolean };
+
 export interface LoginResult {
   token: string;
   expiresAt: Date;
-  user: PublicUser;
+  user: SessionUser;
 }
 
 /**
@@ -66,19 +70,19 @@ export async function loginUser(input: LoginInput): Promise<LoginResult> {
   await prisma.session.create({ data: { tokenHash, userId: user.id, expiresAt } });
 
   const { id, email, role, createdAt } = user;
-  return { token, expiresAt, user: { id, email, role, createdAt } };
+  return { token, expiresAt, user: { id, email, role, createdAt, profileComplete: isProfileComplete(user) } };
 }
 
 export interface AuthContext {
   sessionId: string;
-  user: PublicUser;
+  user: SessionUser;
 }
 
 /** Găsește sesiunea validă pentru un token. Sesiunile expirate se șterg la prima folosire. */
 export async function authenticateToken(token: string): Promise<AuthContext> {
   const session = await prisma.session.findUnique({
     where: { tokenHash: hashSessionToken(token) },
-    include: { user: { select: publicUserFields } },
+    include: { user: { select: { ...publicUserFields, name: true, phoneNumber: true } } },
   });
 
   if (!session) {
@@ -90,7 +94,8 @@ export async function authenticateToken(token: string): Promise<AuthContext> {
     throw new AppError(401, "SESSION_EXPIRED", "Sesiunea a expirat. Autentifică-te din nou.");
   }
 
-  return { sessionId: session.id, user: session.user };
+  const { name, phoneNumber, ...user } = session.user;
+  return { sessionId: session.id, user: { ...user, profileComplete: isProfileComplete({ name, phoneNumber }) } };
 }
 
 /** Deconectare: șterge sesiunea, deci token-ul nu mai poate fi folosit. */

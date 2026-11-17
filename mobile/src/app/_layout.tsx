@@ -1,11 +1,14 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { AuthProvider } from "@/features/auth/auth-context";
+import { ProfileGateProvider } from "@/features/profile/profile-gate";
 import { colors } from "@/theme";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
+      {/* Overlay-ul „Completează-ți profilul” (nume și telefon obligatorii pentru orice acțiune). */}
+      <ProfileGateProvider>
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -28,6 +31,7 @@ export default function RootLayout() {
         <Stack.Screen name="account" options={{ title: "Contul meu" }} />
         {/* Titlurile celorlalte ecrane se setează în fiecare ecran, cu <Stack.Screen options={...} />. */}
       </Stack>
+      </ProfileGateProvider>
     </AuthProvider>
   );
 }

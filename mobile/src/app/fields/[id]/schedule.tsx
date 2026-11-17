@@ -19,6 +19,7 @@ import {
   TextField,
   uiStyles,
 } from "@/components/ui";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { useSession } from "@/features/auth/use-session";
 import {
   addAvailability,
@@ -38,6 +39,7 @@ const DAYS = 30;
 export default function ScheduleScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const session = useSession();
+  const { requireProfile } = useProfileGate();
   const days = nextDays(DAYS);
   const [day, setDay] = useState(days[0]);
 
@@ -194,7 +196,7 @@ export default function ScheduleScreen() {
         </View>
       </View>
       <Notice message={hoursMessage?.text ?? null} tone={hoursMessage?.tone} />
-      <PrimaryButton label={hours ? "Actualizează programul" : "Salvează programul"} onPress={saveHours} loading={savingHours} style={styles.cardButton} />
+      <PrimaryButton label={hours ? "Actualizează programul" : "Salvează programul"} onPress={() => requireProfile("salva programul terenului", saveHours)} loading={savingHours} style={styles.cardButton} />
       </Card>
 
       <View style={styles.stepRow}>
@@ -228,7 +230,7 @@ export default function ScheduleScreen() {
                     </Text>
                     <LinkButton
                       label={deleting === interval.id ? "Se șterge…" : "🗑️ Șterge"}
-                      onPress={() => remove(interval.id)}
+                      onPress={() => requireProfile("șterge un interval", () => remove(interval.id))}
                       danger
                     />
                   </View>
@@ -266,7 +268,7 @@ export default function ScheduleScreen() {
             </View>
           </View>
           <FormError message={intervalError} />
-          <PrimaryButton label="Adaugă intervalul" icon="➕" onPress={addInterval} loading={adding} style={styles.cardButton} />
+          <PrimaryButton label="Adaugă intervalul" icon="➕" onPress={() => requireProfile("adăuga un interval", addInterval)} loading={adding} style={styles.cardButton} />
           </Card>
         </View>
       )}

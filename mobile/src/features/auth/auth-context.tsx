@@ -29,6 +29,8 @@ interface AuthContextValue {
   setActiveRole: (role: UserRole) => void;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  /** Recitește contul de la server (ex. după salvarea profilului, ca să se actualizeze `profileComplete`). */
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -93,9 +95,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setState(signedOut);
   }, [state.token]);
 
+  const refreshUser = useCallback(async () => {
+    const token = state.token;
+    if (!token) return;
+    const user = await authApi.getMe(token);
+    setState((current) => (current.token === token ? { status: "signedIn", user, token } : current));
+  }, [state.token]);
+
   const value = useMemo(
-    () => ({ state, activeRole, setActiveRole, signIn, signOut }),
-    [state, activeRole, setActiveRole, signIn, signOut],
+    () => ({ state, activeRole, setActiveRole, signIn, signOut, refreshUser }),
+    [state, activeRole, setActiveRole, signIn, signOut, refreshUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

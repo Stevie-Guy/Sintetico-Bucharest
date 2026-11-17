@@ -14,6 +14,7 @@ import {
   Screen,
   uiStyles,
 } from "@/components/ui";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { useSession } from "@/features/auth/use-session";
 import { listMatches, type Match } from "@/features/matches/api";
 import { getProfile } from "@/features/profile/api";
@@ -44,6 +45,7 @@ async function loadAllMatches(token: string): Promise<Match[]> {
 // US-09: meciurile viitoare, cu filtre combinabile după categorie, zi și sector.
 export default function MatchesScreen() {
   const session = useSession();
+  const { requireProfile } = useProfileGate();
   const [category, setCategory] = useState<MatchAgeCategory | null>(null);
   const [day, setDay] = useState<string | null>(null);
   const [sector, setSector] = useState<Sector | null>(null);
@@ -95,7 +97,7 @@ export default function MatchesScreen() {
       refreshing={false}
       footer={
         session.isPlayer ? (
-          <PrimaryButton label="Creează meci" icon="➕" onPress={() => router.push("/matches/new")} style={styles.footerButton} />
+          <PrimaryButton label="Creează meci" icon="➕" onPress={() => requireProfile("crea un meci", () => router.push("/matches/new"))} style={styles.footerButton} />
         ) : undefined
       }
     >

@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { ApiError } from "@/api/client";
 import { FieldError, FormError, formStyles, PrimaryButton } from "@/components/form";
 import { ChipRow, Hint, TextField } from "@/components/ui";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { sectors, type Sector } from "@/lib/labels";
 import { errorMessage } from "@/lib/use-resource";
 import type { FieldInput } from "./api";
@@ -14,10 +15,13 @@ import type { FieldInput } from "./api";
 export function FieldForm({
   initial,
   submitLabel,
+  feature,
   onSubmit,
 }: {
   initial?: FieldInput;
   submitLabel: string;
+  /** Pentru overlay-ul de profil incomplet: „Completează-ți profilul pentru a …”. */
+  feature: string;
   onSubmit: (input: FieldInput) => Promise<void>;
 }) {
   const [nume, setNume] = useState(initial?.nume ?? "");
@@ -27,6 +31,7 @@ export function FieldForm({
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const { requireProfile } = useProfileGate();
 
   async function handleSubmit() {
     setFormError(null);
@@ -80,7 +85,7 @@ export function FieldForm({
       <Hint>Doar o recomandare pentru meciuri, nu o limită. Între 2 și 22.</Hint>
 
       <FormError message={formError} />
-      <PrimaryButton label={submitLabel} icon="💾" onPress={handleSubmit} loading={saving} />
+      <PrimaryButton label={submitLabel} icon="💾" onPress={() => requireProfile(feature, handleSubmit)} loading={saving} />
     </View>
   );
 }

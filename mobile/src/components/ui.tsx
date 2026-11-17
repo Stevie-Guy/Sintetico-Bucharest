@@ -264,8 +264,11 @@ export function Badge({ label, tone = "neutral" }: { label: string; tone?: Tone 
   );
 }
 
-/** Mesaj în chenar colorat (confirmare, avertisment, eroare). */
-export function Notice({ message, tone = "neutral" }: { message: string | null; tone?: Tone }) {
+/**
+ * Mesaj în chenar colorat (confirmare, avertisment, eroare). `message` poate conține și
+ * `<Text onPress>` imbricat, de ex. un link subliniat.
+ */
+export function Notice({ message, tone = "neutral" }: { message: ReactNode; tone?: Tone }) {
   if (!message) return null;
   const c = toneColors[tone];
   return (

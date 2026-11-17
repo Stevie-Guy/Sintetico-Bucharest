@@ -18,6 +18,7 @@ import {
   SectionTitle,
   Title,
 } from "@/components/ui";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { useSession } from "@/features/auth/use-session";
 import { getMatch, joinMatch, listParticipants } from "@/features/matches/api";
 import { dayOf, formatDay, formatTime } from "@/lib/datetime";
@@ -29,6 +30,7 @@ import { colors } from "@/theme";
 export default function MatchScreen() {
   const { id, warning } = useLocalSearchParams<{ id: string; warning?: string }>();
   const session = useSession();
+  const { requireProfile } = useProfileGate();
   const [joining, setJoining] = useState(false);
   const [result, setResult] = useState<{ text: string; tone: "success" | "error"; needsProfile?: boolean } | null>(null);
 
@@ -81,7 +83,7 @@ export default function MatchScreen() {
         <Text style={styles.statusText}>Meciul nu mai are locuri libere.</Text>
       </View>
     ) : (
-      <PrimaryButton label="Înscrie-te la meci" icon="⚽" onPress={handleJoin} loading={joining} style={styles.footerButton} />
+      <PrimaryButton label="Înscrie-te la meci" icon="⚽" onPress={() => requireProfile("te înscrie la meci", handleJoin)} loading={joining} style={styles.footerButton} />
     );
   }
 

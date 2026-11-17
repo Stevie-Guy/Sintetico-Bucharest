@@ -28,7 +28,7 @@ backend/
     config/env.ts       variabilele de mediu, validate cu Zod
     lib/prisma.ts       instanța unică de PrismaClient
     errors/             AppError: erori cu mesaj pentru utilizator
-    middleware/         CORS, autentificare (requireAuth), roluri (requireRole), validarea corpului cererii (Zod), tratarea erorilor
+    middleware/         CORS, autentificare (requireAuth), roluri (requireRole), profil complet (requireCompleteProfile), validarea corpului cererii (Zod), tratarea erorilor
     modules/<domeniu>/  câte un folder pe domeniu: rute, scheme Zod, servicii
     scripts/            comenzi rulate manual cu `npm run` (ex. create-admin, db:seed pentru datele demo), excluse din coverage
     generated/prisma/   clientul Prisma generat (nu se urcă pe GitHub)
@@ -36,10 +36,10 @@ backend/
     unit/               logică pură, fără bază de date
     integration/        API-ul prin Supertest, pe db-test
 mobile/
-  .env.example          EXPO_PUBLIC_API_URL (copiat în mobile/.env)
+  .env.example          EXPO_PUBLIC_API_URL (opțional), EXPO_PUBLIC_API_PORT (copiat în mobile/.env)
   src/
     app/                ecranele (Expo Router: fiecare fișier e o rută)
-    api/                clientul HTTP
+    api/                clientul HTTP; adresa backend-ului o deduce `api-url.ts` (din `expo-constants`) dacă nu e setată în .env
     components/         componente comune (formulare, butoane, liste de opțiuni, carduri, filtre, selector de zile, bloc de dată, bară de progres, avatar)
     features/<domeniu>/ apeluri API și logică pe domenii
     lib/                utilitare fără UI: date și ore (fusul Europe/Bucharest), etichete pentru enum-uri, useResource
@@ -66,6 +66,8 @@ Convenții pentru interfața mobilă: ecranele se compun din componentele din `c
 - Corpul fiecărei cereri se validează cu o schemă Zod (`validateBody`).
 - Rutele protejate folosesc middleware-ul `requireAuth` și cer antetul `Authorization: Bearer <token>`. Fără sesiune validă răspund cu 401. Token-ul se obține de la `POST /api/auth/login`.
 - Rutele permise doar unor roluri adaugă `requireRole(...)` după `requireAuth`. Un rol nepermis primește 403 cu codul `FORBIDDEN`. Regulile de moștenire între roluri stau într-un singur loc: `hasRole` din `modules/auth/roles.ts`.
+- Rutele care modifică date adaugă `requireCompleteProfile` după `requireRole`. Fără profil complet răspund cu 403 și codul `PROFILE_INCOMPLETE`; citirile nu îl folosesc. Sesiunea (`GET /api/auth/me`, `POST /api/auth/login`) întoarce `user.profileComplete`, calculat de `isProfileComplete` din `modules/profile/profile-completeness.ts`.
+- În aplicația mobilă, acțiunile trec prin `requireProfile(feature, action)` din `useProfileGate()` (`features/profile/profile-gate.tsx`). Dacă profilul nu e complet, se arată overlay-ul care trimite la profil, în loc să se ruleze acțiunea. Dacă regula se aplică se decide în aplicație după perspectiva activă (`mustCompleteProfile` din `features/auth/use-session.ts`). Ca regulă generală, ecranele decid după `activeRole`, nu după `user.role`, ca Administratorul să vadă în perspectiva unui rol exact ce vede acel rol. Pe server, Administratorul e scutit în `requireCompleteProfile`.
 - În aplicația mobilă, ecranele aleg ce afișează după `activeRole` din `useAuth()`, nu după `user.role`, ca Administratorul să poată schimba perspectiva.
 - În aplicația mobilă, navigarea e un singur `Stack` (Expo Router). După autentificare se ajunge la `/home`, care afișează meniul pentru `activeRole`. Ecranele care cer sesiune folosesc `useSession()` și redirecționează la `/` fără sesiune. Datele se încarcă cu `useResource` (`src/lib/`), care le reîncarcă la fiecare revenire pe ecran.
 - În aplicația mobilă, orele se afișează mereu în fusul `Europe/Bucharest` (`src/lib/datetime.ts`), indiferent de fusul telefonului, ca să coincidă cu programul terenurilor din backend.

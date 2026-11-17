@@ -3,7 +3,9 @@
  * Erorile din backend au forma { error: { code, message, fields? } } și devin `ApiError`.
  */
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+import { resolveApiUrl } from "./api-url";
+
+const API_URL = resolveApiUrl();
 
 export class ApiError extends Error {
   constructor(
@@ -26,7 +28,7 @@ interface RequestOptions {
 
 export async function apiRequest<T>(path: string, { method = "GET", body, token }: RequestOptions = {}): Promise<T> {
   if (!API_URL) {
-    throw new ApiError(0, "CONFIG_ERROR", "Lipsește EXPO_PUBLIC_API_URL în mobile/.env.");
+    throw new ApiError(0, "CONFIG_ERROR", "Nu se poate afla adresa serverului. Setează EXPO_PUBLIC_API_URL în mobile/.env.");
   }
 
   const headers: Record<string, string> = { Accept: "application/json" };

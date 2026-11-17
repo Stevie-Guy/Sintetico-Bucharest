@@ -18,6 +18,7 @@ import {
   SectionTitle,
   Title,
 } from "@/components/ui";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { useSession } from "@/features/auth/use-session";
 import { getField, getOperatingHours, listAvailability, type AvailabilityInterval } from "@/features/fields/api";
 import { createReservation } from "@/features/reservations/api";
@@ -33,6 +34,7 @@ const DAYS = 14;
 export default function FieldScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const session = useSession();
+  const { requireProfile } = useProfileGate();
   const days = nextDays(DAYS);
   const [day, setDay] = useState(days[0]);
   const [reserving, setReserving] = useState(false);
@@ -84,7 +86,7 @@ export default function FieldScreen() {
         </Text>
         <PrimaryButton
           label="Trimite cererea de rezervare"
-          onPress={() => reserve(selected)}
+          onPress={() => requireProfile("rezerva un teren", () => reserve(selected))}
           loading={reserving}
           style={styles.footerButton}
         />
@@ -133,7 +135,7 @@ export default function FieldScreen() {
                 tone="neutral"
                 title="Editează terenul"
                 subtitle="Nume, adresă, sector, jucători"
-                onPress={() => router.push({ pathname: "/fields/[id]/edit", params: { id } })}
+                onPress={() => requireProfile("edita terenul", () => router.push({ pathname: "/fields/[id]/edit", params: { id } }))}
               />
             </View>
           )}
