@@ -47,3 +47,21 @@ export const Sector = {
 } as const
 
 export type Sector = (typeof Sector)[keyof typeof Sector]
+
+
+export const ReservationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ReservationStatus = (typeof ReservationStatus)[keyof typeof ReservationStatus]
+
+
+export const NotificationType = {
+  RESERVATION_REQUESTED: 'RESERVATION_REQUESTED',
+  RESERVATION_APPROVED: 'RESERVATION_APPROVED',
+  RESERVATION_REJECTED: 'RESERVATION_REJECTED'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

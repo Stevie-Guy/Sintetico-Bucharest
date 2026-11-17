@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const startTime = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Ora trebuie să fie în formatul HH:mm (00:00–23:59).");
 const endTime = z.string().regex(/^(([01]\d|2[0-3]):[0-5]\d|24:00)$/, "Ora trebuie să fie în formatul HH:mm (00:00–24:00).");
-const calendarDate = z.iso.date({ error: "Data trebuie să fie validă, în formatul AAAA-LL-ZZ." })
+export const calendarDate = z.iso.date({ error: "Data trebuie să fie validă, în formatul AAAA-LL-ZZ." })
   .refine((value) => !value.startsWith("0000-"), "Anul trebuie să fie între 0001 și 9999.");
 
 export function toMinutes(time: string): number {

@@ -4,6 +4,7 @@ Jurnalul schimbărilor și deciziilor din proiectul Sintetico. Fiecare rând spu
 
 | Data | Schimbare |
 |---|---|
+| 2026-11-17 | Ticket US-08 Field Reservation: se rezervă un interval publicat întreg, cu starea PENDING până la aprobarea proprietarului. PENDING/APPROVED blochează intervalul, REJECTED îl eliberează. Notificările persistente din inbox și schimbările rezervării sunt atomice. Versiunea intervalului previne rezervarea unei selecții editate; blocarea terenului și un index unic parțial previn rezervările concurente. Detalii în docs/field-reservations.md. |
 | 2026-11-17 | Ticket US-07 Operating Hours (US-06 în backlog): program zilnic în ore locale Europe/Bucharest și CRUD pentru intervale pe dată. Scrierile cer proprietatea terenului; intervalele trebuie să fie în program și fără suprapuneri. Modificările incompatibile ale programului sunt refuzate. Tranzacțiile blochează terenul pentru a păstra regulile la cereri simultane. Detalii în docs/operating-hours.md. |
 | 2026-11-16 | Pentru US-04, categoriile sunt U12 (<12), U15 (12–14), U18 (15–17), Seniori (18–34) și Veterani 35+ (35+). API-ul calculează categoria dinamic din data nașterii la citirea/actualizarea profilului; data nașterii rămâne opțională și se completează din profil, fără job programat. |
 | 2026-11-16 | Pentru US-03, profilul jucătorului acceptă nume de maximum 128 de caractere, pozițiile PORTAR/FUNDAS/MIJLOCAS/ATACANT și piciorul dominant STANGA/DREAPTA. |

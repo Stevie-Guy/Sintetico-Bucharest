@@ -55,7 +55,9 @@ export const ModelName = {
   Session: 'Session',
   Teren: 'Teren',
   FieldOperatingHours: 'FieldOperatingHours',
-  FieldAvailability: 'FieldAvailability'
+  FieldAvailability: 'FieldAvailability',
+  Reservation: 'Reservation',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -127,6 +129,7 @@ export type FieldOperatingHoursScalarFieldEnum = (typeof FieldOperatingHoursScal
 
 
 export const FieldAvailabilityScalarFieldEnum = {
+  version: 'version',
   id: 'id',
   fieldId: 'fieldId',
   date: 'date',
@@ -137,6 +140,37 @@ export const FieldAvailabilityScalarFieldEnum = {
 } as const
 
 export type FieldAvailabilityScalarFieldEnum = (typeof FieldAvailabilityScalarFieldEnum)[keyof typeof FieldAvailabilityScalarFieldEnum]
+
+
+export const ReservationScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  playerId: 'playerId',
+  availabilityId: 'availabilityId',
+  date: 'date',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  startsAtUtc: 'startsAtUtc',
+  endsAtUtc: 'endsAtUtc',
+  status: 'status',
+  createdAt: 'createdAt',
+  decidedAt: 'decidedAt'
+} as const
+
+export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  recipientId: 'recipientId',
+  reservationId: 'reservationId',
+  type: 'type',
+  message: 'message',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -58,6 +58,8 @@ model User {
 
   sessions Session[]
   terenuri Teren[]
+  reservations Reservation[]
+  notifications Notification[]
   
   @@map("users")
 }
@@ -93,6 +95,7 @@ model Teren {
   @@index([adminId])
   operatingHours FieldOperatingHours?
   availabilityIntervals FieldAvailability[]
+  reservations Reservation[]
 
   @@map("terenuri")
 }
@@ -110,6 +113,7 @@ model FieldOperatingHours {
 }
 
 model FieldAvailability {
+  version     Int      @default(1)
   id          String   @id @default(uuid()) @db.Uuid
   fieldId     String   @map("field_id") @db.Uuid
   field       Teren    @relation(fields: [fieldId], references: [id], onDelete: Cascade)
@@ -120,5 +124,61 @@ model FieldAvailability {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@index([fieldId, date, startsAt])
+  reservations Reservation[]
+
   @@map("field_availability")
+}
+
+
+enum ReservationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum NotificationType {
+  RESERVATION_REQUESTED
+  RESERVATION_APPROVED
+  RESERVATION_REJECTED
+}
+
+model Reservation {
+  id             String            @id @default(uuid()) @db.Uuid
+  fieldId        String            @map("field_id") @db.Uuid
+  field          Teren             @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  playerId       String            @map("player_id") @db.Uuid
+  player         User              @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  availabilityId String?           @map("availability_id") @db.Uuid
+  availability   FieldAvailability? @relation(fields: [availabilityId], references: [id], onDelete: SetNull)
+  // Copie a intervalului la rezervare: istoricul nu se schimbă odată cu disponibilitatea.
+  date           DateTime          @db.Date
+  startsAt       Int               @map("starts_at")
+  endsAt         Int               @map("ends_at")
+  startsAtUtc    DateTime          @map("starts_at_utc") @db.Timestamptz(3)
+  endsAtUtc      DateTime          @map("ends_at_utc") @db.Timestamptz(3)
+  status         ReservationStatus @default(PENDING)
+  createdAt      DateTime          @default(now()) @map("created_at")
+  decidedAt      DateTime?         @map("decided_at")
+  notifications  Notification[]
+
+  @@index([fieldId, status, date])
+  @@index([playerId, createdAt, id])
+  @@index([availabilityId])
+  @@map("reservations")
+}
+
+model Notification {
+  id            String           @id @default(uuid()) @db.Uuid
+  recipientId   String           @map("recipient_id") @db.Uuid
+  recipient     User             @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  reservationId String           @map("reservation_id") @db.Uuid
+  reservation   Reservation      @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  type          NotificationType
+  message       String
+  readAt        DateTime?        @map("read_at")
+  createdAt     DateTime         @default(now()) @map("created_at")
+
+  @@unique([reservationId, recipientId, type])
+  @@index([recipientId, readAt, createdAt])
+  @@map("notifications")
 }
