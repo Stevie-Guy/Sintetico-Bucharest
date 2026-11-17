@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getAuth, requireAuth } from "../../middleware/require-auth";
+import { requireCompleteProfile } from "../../middleware/require-complete-profile";
 import { requireRole } from "../../middleware/require-role";
 import { validateBody } from "../../middleware/validate-body";
 import { parseInput } from "../../middleware/parse-input";
@@ -15,14 +16,14 @@ const router = Router();
 router.get("/", requireAuth, async (req, res) => {
   res.json(await listFields(parseInput(fieldListQuerySchema, req.query)));
 });
-router.post("/", requireAuth, requireRole("FIELD_ADMIN"), validateBody(fieldSchema), async (req, res) => {
+router.post("/", requireAuth, requireRole("FIELD_ADMIN"), requireCompleteProfile, validateBody(fieldSchema), async (req, res) => {
   res.status(201).json({ field: await createField(getAuth(res).user.id, req.body as FieldInput) });
 });
 router.get("/:id", requireAuth, async (req, res) => {
   const { id } = parseInput(fieldParamsSchema, req.params);
   res.json({ field: await getField(id) });
 });
-router.put("/:id", requireAuth, requireRole("FIELD_ADMIN"), validateBody(fieldSchema), async (req, res) => {
+router.put("/:id", requireAuth, requireRole("FIELD_ADMIN"), requireCompleteProfile, validateBody(fieldSchema), async (req, res) => {
   const { id } = parseInput(fieldParamsSchema, req.params);
   res.json({ field: await updateField(id, getAuth(res).user.id, req.body as FieldInput) });
 });

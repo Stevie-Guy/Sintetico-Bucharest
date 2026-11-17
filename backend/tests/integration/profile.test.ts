@@ -54,6 +54,18 @@ describe("/api/profile (US-03, US-04)", () => {
     expect(profile.body.user).toHaveProperty("updatedAt");
   });
 
+  it("acceptă piciorul dominant AMBIDEXTRU", async () => {
+    const authorization = await login();
+
+    const update = await request(app)
+      .patch("/api/profile")
+      .set("Authorization", authorization)
+      .send({ dominantFoot: "AMBIDEXTRU" })
+      .expect(200);
+
+    expect(update.body.user.dominantFoot).toBe("AMBIDEXTRU");
+  });
+
   it("permite actualizarea parțială și ștergerea unui câmp opțional", async () => {
     const authorization = await login();
 
@@ -99,7 +111,7 @@ describe("/api/profile (US-03, US-04)", () => {
     [{ dateOfBirth: "2999-01-01" }, "dateOfBirth"],
     [{ dateOfBirth: "2023-02-29" }, "dateOfBirth"],
     [{ preferredPosition: "CAPITAN" }, "preferredPosition"],
-    [{ dominantFoot: "AMBIDEXTRU" }, "dominantFoot"],
+    [{ dominantFoot: "AMBELE" }, "dominantFoot"],
     [{ phoneNumber: "0712345678" }, "phoneNumber"],
     [{ phoneNumber: "+4071234567" }, "phoneNumber"],
   ])("refuză date de profil invalide: %o", async (input, field) => {

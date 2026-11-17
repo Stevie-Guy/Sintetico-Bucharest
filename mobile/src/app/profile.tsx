@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ApiError } from "@/api/client";
 import { FormError, formStyles, PrimaryButton } from "@/components/form";
 import { Avatar, Badge, Card, ChipRow, ErrorState, Hint, LoadingState, Notice, Screen, SectionTitle, TextField } from "@/components/ui";
+import { useAuth } from "@/features/auth/auth-context";
 import { useSession } from "@/features/auth/use-session";
 import { getProfile, updateProfile, type PlayerProfile } from "@/features/profile/api";
 import { isValidDate, todayIso } from "@/lib/datetime";
@@ -12,8 +13,11 @@ import { errorMessage, useResource } from "@/lib/use-resource";
 import { colors } from "@/theme";
 
 // US-03: editare profil. US-04: categoria de vârstă, calculată de server din data nașterii (doar afișată).
+// Numele și telefonul sunt obligatorii pentru orice acțiune, la toate rolurile; Administratorul e scutit doar în perspectiva lui.
+// Datele de jucător (naștere, poziție, picior, categorie) apar doar din perspectiva de jucător.
 export default function ProfileScreen() {
   const session = useSession();
+  const { refreshUser } = useAuth();
   const profile = useResource(
     () => (session ? getProfile(session.token) : Promise.resolve(null)),
     [session?.token],
@@ -66,16 +70,16 @@ export default function ProfileScreen() {
 
     setSaving(true);
     try {
-      const updated = await updateProfile(session.token, {
-        name: name.trim() || null,
-        dateOfBirth: dob || null,
-        preferredPosition: position,
-        dominantFoot: foot,
-        phoneNumber: phoneValue || null,
-      });
+      const contact = { name: name.trim() || null, phoneNumber: phoneValue || null };
+      const updated = await updateProfile(
+        session.token,
+        session.isPlayer ? { ...contact, dateOfBirth: dob || null, preferredPosition: position, dominantFoot: foot } : contact,
+      );
       profile.setData(updated);
       fill(updated);
       setSaved(true);
+      // Actualizează `profileComplete` din sesiune, ca acțiunile să se deblocheze imediat.
+      await refreshUser().catch(() => {});
     } catch (err) {
       if (err instanceof ApiError && Object.keys(err.fields).length) setFieldErrors(err.fields);
       setFormError(errorMessage(err));
@@ -109,7 +113,7 @@ export default function ProfileScreen() {
                 <Text style={styles.email} numberOfLines={1}>
                   {profile.data.email}
                 </Text>
-                {profile.data.ageCategory ? (
+                {!session.isPlayer ? null : profile.data.ageCategory ? (
                   <Badge label={`Categoria ${profile.data.ageCategory}`} tone="success" />
                 ) : (
                   <Badge label="Categorie necunoscută" tone="warning" />
@@ -117,15 +121,25 @@ export default function ProfileScreen() {
               </View>
             </View>
           </Card>
-          <Hint>
-            {profile.data.ageCategory
-              ? "Categoria se calculează automat din data nașterii și nu se poate edita."
-              : "Completează data nașterii ca să afli categoria și să te poți înscrie la meciuri."}
-          </Hint>
+          <Notice
+            message={
+              !session.mustCompleteProfile
+                ? null
+                : "Completează numele și numărul de telefon ca să poți folosi aplicația."
+            }
+            tone="warning"
+          />
+          {session.isPlayer && (
+            <Hint>
+              {profile.data.ageCategory
+                ? "Categoria se calculează automat din data nașterii și nu se poate edita."
+                : "Completează data nașterii ca să afli categoria și să te poți înscrie la meciuri."}
+            </Hint>
+          )}
 
           <SectionTitle>Date personale</SectionTitle>
           <TextField
-            label="Nume"
+            label={session.activeRole === "ADMIN" ? "Nume" : "Nume (obligatoriu)"}
             value={name}
             onChangeText={setName}
             placeholder="Numele afișat celorlalți jucători"
@@ -133,26 +147,7 @@ export default function ProfileScreen() {
             errors={fieldErrors.name}
           />
           <TextField
-            label="Data nașterii"
-            value={dateOfBirth}
-            onChangeText={setDateOfBirth}
-            placeholder="AAAA-LL-ZZ"
-            hint="Ex. 2001-05-23"
-            keyboardType="numbers-and-punctuation"
-            maxLength={10}
-            errors={fieldErrors.dateOfBirth}
-          />
-
-          <SectionTitle>Pe teren</SectionTitle>
-          <Text style={[formStyles.label, styles.firstLabel]}>Poziție preferată</Text>
-          <ChipRow options={positions} selected={position} onSelect={setPosition} allLabel="Nespecificat" />
-
-          <Text style={formStyles.label}>Picior dominant</Text>
-          <ChipRow options={feet} selected={foot} onSelect={setFoot} allLabel="Nespecificat" />
-
-          <SectionTitle>Contact</SectionTitle>
-          <TextField
-            label="Telefon"
+            label={session.activeRole === "ADMIN" ? "Telefon" : "Telefon (obligatoriu)"}
             value={phone}
             onChangeText={setPhone}
             placeholder="+40712345678"
@@ -160,6 +155,28 @@ export default function ProfileScreen() {
             maxLength={16}
             errors={fieldErrors.phoneNumber}
           />
+
+          {session.isPlayer && (
+            <>
+              <TextField
+                label="Data nașterii"
+                value={dateOfBirth}
+                onChangeText={setDateOfBirth}
+                placeholder="AAAA-LL-ZZ"
+                hint="Ex. 2001-05-23"
+                keyboardType="numbers-and-punctuation"
+                maxLength={10}
+                errors={fieldErrors.dateOfBirth}
+              />
+
+              <SectionTitle>Pe teren</SectionTitle>
+              <Text style={[formStyles.label, styles.firstLabel]}>Poziție preferată</Text>
+              <ChipRow options={positions} selected={position} onSelect={setPosition} allLabel="Nespecificat" />
+
+              <Text style={formStyles.label}>Picior dominant</Text>
+              <ChipRow options={feet} selected={foot} onSelect={setFoot} allLabel="Nespecificat" />
+            </>
+          )}
 
           <FormError message={formError} />
           <Notice message={saved ? "Profilul a fost salvat." : null} tone="success" />

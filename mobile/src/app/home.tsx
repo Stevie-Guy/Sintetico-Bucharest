@@ -1,9 +1,10 @@
 import { Redirect, router, type Href } from "expo-router";
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Avatar, Hint, ListItem } from "@/components/ui";
+import { Avatar, Hint, ListItem, Notice } from "@/components/ui";
 import { roleLabel } from "@/features/auth/api";
 import { useSession } from "@/features/auth/use-session";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { listNotifications } from "@/features/notifications/api";
 import { useResource } from "@/lib/use-resource";
 import { colors, radius, shadow } from "@/theme";
@@ -13,18 +14,20 @@ interface MenuItem {
   description: string;
   icon: string;
   href: Href;
+  /** Acțiune care cere profil complet; textul completează „Completează-ți profilul pentru a …”. */
+  feature?: string;
 }
 
 const playerMenu: MenuItem[] = [
   { icon: "⚽", title: "Meciuri", description: "Găsește un meci și înscrie-te", href: "/matches" },
-  { icon: "➕", title: "Creează meci", description: "Pe o rezervare aprobată", href: "/matches/new" },
+  { icon: "➕", title: "Creează meci", description: "Pe o rezervare aprobată", href: "/matches/new", feature: "crea un meci" },
   { icon: "🏟️", title: "Terenuri", description: "Rezervă un interval liber", href: "/fields" },
   { icon: "📅", title: "Rezervările mele", description: "Vezi dacă s-au aprobat", href: "/reservations" },
 ];
 
 const fieldAdminMenu: MenuItem[] = [
   { icon: "🏟️", title: "Terenurile mele", description: "Program, intervale, cereri", href: "/my-fields" },
-  { icon: "➕", title: "Adaugă teren", description: "Apare imediat în aplicație", href: "/fields/new" },
+  { icon: "➕", title: "Adaugă teren", description: "Apare imediat în aplicație", href: "/fields/new", feature: "adăuga un teren" },
 ];
 
 const adminMenu: MenuItem[] = [
@@ -35,6 +38,7 @@ const adminMenu: MenuItem[] = [
 // Ecranul principal după autentificare. Meniul depinde de perspectiva activă (`activeRole`).
 export default function HomeScreen() {
   const session = useSession();
+  const { requireProfile } = useProfileGate();
   const notifications = useResource(
     () => (session ? listNotifications(session.token) : Promise.resolve(null)),
     [session?.token],
@@ -88,12 +92,30 @@ export default function HomeScreen() {
             <Hint>Ca să folosești aplicația ca un anumit tip de cont, alege perspectiva din „Contul meu”.</Hint>
           )}
 
+          {session.mustCompleteProfile && (
+            <View style={styles.incomplete}>
+              <Notice
+                message={
+                  <>
+                    <Text style={styles.link} onPress={() => router.push("/profile")} accessibilityRole="link">
+                      Profilul tău
+                    </Text>{" "}
+                    nu e complet. Adaugă numele și numărul de telefon ca să poți folosi aplicația.
+                  </>
+                }
+                tone="warning"
+              />
+            </View>
+          )}
+
           <Text style={styles.sectionTitle}>Ce vrei să faci?</Text>
           <View style={styles.grid}>
             {menu.map((item) => (
               <Pressable
                 key={item.title}
-                onPress={() => router.push(item.href)}
+                onPress={() =>
+                  item.feature ? requireProfile(item.feature, () => router.push(item.href)) : router.push(item.href)
+                }
                 accessibilityRole="button"
                 style={({ pressed }) => [styles.tile, pressed && styles.tilePressed]}
               >
@@ -107,17 +129,13 @@ export default function HomeScreen() {
           </View>
 
           {/* Notificările și „Contul meu” se deschid din clopoțelul și bulina din antet. */}
-          {session.isPlayer && (
-            <>
-              <Text style={styles.sectionTitle}>Contul tău</Text>
-              <ListItem
-                icon="👤"
-                title="Profilul meu"
-                subtitle="Nume, dată de naștere, poziție, categorie"
-                onPress={() => router.push("/profile")}
-              />
-            </>
-          )}
+          <Text style={styles.sectionTitle}>Contul tău</Text>
+          <ListItem
+            icon="👤"
+            title="Profilul meu"
+            subtitle={session.isPlayer ? "Nume, telefon, dată de naștere, poziție, categorie" : "Nume și telefon"}
+            onPress={() => router.push("/profile")}
+          />
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -167,6 +185,8 @@ const styles = StyleSheet.create({
   },
   roleText: { color: "#FFFFFF", fontWeight: "700", fontSize: 13 },
 
+  incomplete: { marginBottom: 20 },
+  link: { textDecorationLine: "underline", fontWeight: "700" },
   content: { padding: 20, paddingBottom: 40, width: "100%", maxWidth: 520, alignSelf: "center" },
   sectionTitle: { fontSize: 18, fontWeight: "700", color: colors.text, marginBottom: 12, marginTop: 4 },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 12, marginBottom: 24 },

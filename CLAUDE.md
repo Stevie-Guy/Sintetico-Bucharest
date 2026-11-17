@@ -37,6 +37,8 @@ Nu introduce alte biblioteci sau tehnologii majore fără acordul echipei.
 
 **Actori:** Jucător, Organizator de campionat (specializare a Jucătorului), Administrator de teren, Administrator.
 
+**Perspectiva Administratorului:** când Administratorul folosește aplicația din perspectiva altui rol, vede și poate face exact ce vede și poate face acel rol, inclusiv restricțiile (ex. profilul obligatoriu). Excepțiile Administratorului se aplică doar în perspectiva lui. Orice funcționalitate nouă respectă regula: în aplicație, deciziile se iau după `activeRole`, nu după `user.role`.
+
 **Categorii de vârstă:** U12, U15, U18, Seniori, Veterani 35+. Se calculează automat din data nașterii, nu se editează direct și se recalculează la schimbarea datei sau la trecerea unui prag de vârstă.
 
 **Rank:**

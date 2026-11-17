@@ -16,6 +16,7 @@ export default function NewFieldScreen() {
       <Title subtitle="După salvare, setează programul și intervalele în care terenul se poate rezerva.">Teren nou 🏟️</Title>
       <FieldForm
         submitLabel="Salvează terenul"
+        feature="adăuga un teren"
         onSubmit={async (input) => {
           const field = await createField(token, input);
           router.replace({ pathname: "/fields/[id]", params: { id: field.id } });

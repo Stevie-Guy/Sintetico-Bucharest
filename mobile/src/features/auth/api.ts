@@ -43,6 +43,8 @@ export interface User {
   email: string;
   role: UserRole;
   createdAt: string;
+  /** Are nume și telefon în profil; fără ele contul poate doar să vadă aplicația. */
+  profileComplete: boolean;
 }
 
 export interface RegisterInput {

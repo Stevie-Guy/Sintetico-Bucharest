@@ -32,6 +32,7 @@ export default function EditFieldScreen() {
           key={field.data.id}
           initial={field.data}
           submitLabel="Salvează modificările"
+          feature="edita terenul"
           onSubmit={async (input) => {
             await updateField(token, id, input);
             router.back();

@@ -23,7 +23,9 @@ const DEMO_PASSWORD = "Sintetico1!";
 
 type DemoUser = {
   key: string; name: string; role: UserRole; birth: string;
-  position?: "PORTAR" | "FUNDAS" | "MIJLOCAS" | "ATACANT"; foot?: "STANGA" | "DREAPTA"; phone?: string;
+  position?: "PORTAR" | "FUNDAS" | "MIJLOCAS" | "ATACANT"; foot?: "STANGA" | "DREAPTA" | "AMBIDEXTRU";
+  // Obligatoriu: fără nume și telefon contul nu poate face nicio acțiune în aplicație.
+  phone: string;
 };
 
 const users: DemoUser[] = [
@@ -35,22 +37,22 @@ const users: DemoUser[] = [
   // Jucători seniori
   { key: "andrei.popescu", name: "Andrei Popescu", role: "PLAYER", birth: "1998-05-14", position: "ATACANT", foot: "DREAPTA", phone: "+40755400500" },
   { key: "mihai.stan", name: "Mihai Stan", role: "PLAYER", birth: "2000-11-02", position: "MIJLOCAS", foot: "STANGA", phone: "+40766500600" },
-  { key: "alex.georgescu", name: "Alexandru Georgescu", role: "PLAYER", birth: "1996-01-30", position: "FUNDAS", foot: "DREAPTA" },
-  { key: "vlad.constantin", name: "Vlad Constantin", role: "PLAYER", birth: "2001-07-19", position: "PORTAR", foot: "DREAPTA" },
-  { key: "cristi.dumitru", name: "Cristian Dumitru", role: "PLAYER", birth: "1999-04-08", position: "ATACANT", foot: "STANGA" },
-  { key: "bogdan.ene", name: "Bogdan Ene", role: "PLAYER", birth: "1995-12-25", position: "MIJLOCAS", foot: "DREAPTA" },
-  { key: "stefan.tudor", name: "Ștefan Tudor", role: "PLAYER", birth: "2003-02-11", position: "FUNDAS", foot: "STANGA" },
-  { key: "george.nistor", name: "George Nistor", role: "PLAYER", birth: "1997-08-03", position: "ATACANT", foot: "DREAPTA" },
-  { key: "darius.lazar", name: "Darius Lazăr", role: "PLAYER", birth: "2002-10-27", position: "MIJLOCAS", foot: "DREAPTA" },
+  { key: "alex.georgescu", name: "Alexandru Georgescu", role: "PLAYER", birth: "1996-01-30", position: "FUNDAS", foot: "DREAPTA", phone: "+40777000101" },
+  { key: "vlad.constantin", name: "Vlad Constantin", role: "PLAYER", birth: "2001-07-19", position: "PORTAR", foot: "DREAPTA", phone: "+40777000102" },
+  { key: "cristi.dumitru", name: "Cristian Dumitru", role: "PLAYER", birth: "1999-04-08", position: "ATACANT", foot: "STANGA", phone: "+40777000103" },
+  { key: "bogdan.ene", name: "Bogdan Ene", role: "PLAYER", birth: "1995-12-25", position: "MIJLOCAS", foot: "AMBIDEXTRU", phone: "+40777000104" },
+  { key: "stefan.tudor", name: "Ștefan Tudor", role: "PLAYER", birth: "2003-02-11", position: "FUNDAS", foot: "STANGA", phone: "+40777000105" },
+  { key: "george.nistor", name: "George Nistor", role: "PLAYER", birth: "1997-08-03", position: "ATACANT", foot: "DREAPTA", phone: "+40777000106" },
+  { key: "darius.lazar", name: "Darius Lazăr", role: "PLAYER", birth: "2002-10-27", position: "MIJLOCAS", foot: "DREAPTA", phone: "+40777000107" },
   // Veterani 35+
-  { key: "dan.voicu", name: "Dan Voicu", role: "PLAYER", birth: "1982-05-05", position: "FUNDAS", foot: "DREAPTA" },
-  { key: "florin.matei", name: "Florin Matei", role: "PLAYER", birth: "1979-09-16", position: "PORTAR", foot: "STANGA" },
-  { key: "catalin.ilie", name: "Cătălin Ilie", role: "PLAYER", birth: "1985-01-22", position: "MIJLOCAS", foot: "DREAPTA" },
-  { key: "sorin.badea", name: "Sorin Badea", role: "PLAYER", birth: "1977-03-09", position: "ATACANT", foot: "DREAPTA" },
+  { key: "dan.voicu", name: "Dan Voicu", role: "PLAYER", birth: "1982-05-05", position: "FUNDAS", foot: "DREAPTA", phone: "+40777000108" },
+  { key: "florin.matei", name: "Florin Matei", role: "PLAYER", birth: "1979-09-16", position: "PORTAR", foot: "STANGA", phone: "+40777000109" },
+  { key: "catalin.ilie", name: "Cătălin Ilie", role: "PLAYER", birth: "1985-01-22", position: "MIJLOCAS", foot: "DREAPTA", phone: "+40777000110" },
+  { key: "sorin.badea", name: "Sorin Badea", role: "PLAYER", birth: "1977-03-09", position: "ATACANT", foot: "DREAPTA", phone: "+40777000111" },
   // U18
-  { key: "luca.preda", name: "Luca Preda", role: "PLAYER", birth: "2010-04-17", position: "ATACANT", foot: "DREAPTA" },
-  { key: "matei.rusu", name: "Matei Rusu", role: "PLAYER", birth: "2009-08-29", position: "MIJLOCAS", foot: "STANGA" },
-  { key: "david.oprea", name: "David Oprea", role: "PLAYER", birth: "2010-12-01", position: "FUNDAS", foot: "DREAPTA" },
+  { key: "luca.preda", name: "Luca Preda", role: "PLAYER", birth: "2010-04-17", position: "ATACANT", foot: "DREAPTA", phone: "+40777000112" },
+  { key: "matei.rusu", name: "Matei Rusu", role: "PLAYER", birth: "2009-08-29", position: "MIJLOCAS", foot: "STANGA", phone: "+40777000113" },
+  { key: "david.oprea", name: "David Oprea", role: "PLAYER", birth: "2010-12-01", position: "FUNDAS", foot: "DREAPTA", phone: "+40777000114" },
 ];
 
 type DemoField = { key: string; admin: string; name: string; address: string; sector: Sector; players: number; opens: number; closes: number };

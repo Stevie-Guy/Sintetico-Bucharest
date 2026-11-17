@@ -34,10 +34,11 @@ export const positions: { value: PlayerPosition; label: string }[] = [
   { value: "ATACANT", label: "Atacant" },
 ];
 
-export type DominantFoot = "STANGA" | "DREAPTA";
+export type DominantFoot = "STANGA" | "DREAPTA" | "AMBIDEXTRU";
 export const feet: { value: DominantFoot; label: string }[] = [
   { value: "STANGA", label: "Stâng" },
   { value: "DREAPTA", label: "Drept" },
+  { value: "AMBIDEXTRU", label: "Ambidextru" },
 ];
 
 export type ReservationStatus = "PENDING" | "APPROVED" | "REJECTED";

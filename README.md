@@ -23,7 +23,8 @@ npm run dev
 
 API-ul pornește implicit la `http://localhost:3000`.
 Migrația nouă `20261117040000_create_matches` adaugă tabelele meciurilor și
-participanților; nu șterge rezervările existente.
+participanților; nu șterge rezervările existente. Migrația
+`20261118120000_dominant_foot_ambidextrous` adaugă valoarea AMBIDEXTRU la piciorul dominant.
 
 ## Docker
 
@@ -124,7 +125,7 @@ Toate conturile demo au parola `Sintetico1!`:
 
 ```bash
 cd mobile
-cp .env.example .env   # pune în EXPO_PUBLIC_API_URL IP-ul calculatorului tău
+cp .env.example .env   # adresa backend-ului se deduce singură; vezi comentariile din fișier
 npm install
 npm start              # scanează codul QR cu Expo Go
 ```
@@ -136,7 +137,7 @@ cd mobile
 npm run web            # deschide aplicația pe http://localhost:8081
 ```
 
-În browser, `mobile/.env` poate folosi `EXPO_PUBLIC_API_URL=http://localhost:3000`. Pe telefon e nevoie în continuare de IP-ul calculatorului. După ce modifici `.env`, repornește Expo.
+Nu e nevoie să scrii IP-ul calculatorului în `mobile/.env`. Cu `EXPO_PUBLIC_API_URL` goală, aplicația deduce singură adresa backend-ului: în browser folosește host-ul paginii, iar pe telefon IP-ul calculatorului pe care rulează Expo. Merge și după schimbarea rețelei Wi-Fi; repornește doar Expo. Setează `EXPO_PUBLIC_API_URL` numai dacă backend-ul rulează pe alt calculator sau folosești `expo start --tunnel`. După ce modifici `.env`, repornește Expo.
 
 Varianta web e pentru verificări rapide; aplicația e gândită pentru telefon, așa că unele detalii arată diferit. Backend-ul acceptă cereri din browser doar de la originile din `CORS_ORIGINS` (în `.env`, implicit `http://localhost:8081`).
 

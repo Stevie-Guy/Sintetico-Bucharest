@@ -15,6 +15,7 @@ import {
   Segmented,
   uiStyles,
 } from "@/components/ui";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { useSession } from "@/features/auth/use-session";
 import { decideReservation, listFieldReservations, type Reservation } from "@/features/reservations/api";
 import { dateParts, formatDay, relativeDay } from "@/lib/datetime";
@@ -29,6 +30,7 @@ const filterOptions = [{ value: "ALL" as const, label: "Toate" }, ...reservation
 export default function FieldReservationsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const session = useSession();
+  const { requireProfile } = useProfileGate();
   const [status, setStatus] = useState<ReservationStatus | null>("PENDING");
   const [busy, setBusy] = useState<string | null>(null);
   const [message, setMessage] = useState<{ text: string; tone: "success" | "error" } | null>(null);
@@ -108,7 +110,7 @@ export default function FieldReservationsScreen() {
                     <SecondaryButton
                       label="Respinge"
                       danger
-                      onPress={() => decide(r, "REJECTED")}
+                      onPress={() => requireProfile("respinge rezervarea", () => decide(r, "REJECTED"))}
                       loading={busy === r.id + "REJECTED"}
                       disabled={busy !== null}
                     />
@@ -116,7 +118,7 @@ export default function FieldReservationsScreen() {
                   <View style={uiStyles.flex}>
                     <PrimaryButton
                       label="Aprobă"
-                      onPress={() => decide(r, "APPROVED")}
+                      onPress={() => requireProfile("aproba rezervarea", () => decide(r, "APPROVED"))}
                       loading={busy === r.id + "APPROVED"}
                       disabled={busy !== null}
                       style={styles.approve}

@@ -16,7 +16,7 @@ let player: Account;
 let fieldId: string;
 
 async function account(role: UserRole): Promise<Account> {
-  const user = await prisma.user.create({ data: { email: `${randomUUID()}@example.com`, passwordHash: "unused", role } });
+  const user = await prisma.user.create({ data: { email: `${randomUUID()}@example.com`, passwordHash: "unused", role, name: "Test", phoneNumber: "+40700000000" } });
   const { token, tokenHash } = generateSessionToken();
   await prisma.session.create({ data: { tokenHash, userId: user.id, expiresAt: new Date(Date.now() + 3600000) } });
   return { id: user.id, authorization: `Bearer ${token}` };

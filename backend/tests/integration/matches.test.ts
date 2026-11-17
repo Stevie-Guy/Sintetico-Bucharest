@@ -13,7 +13,7 @@ let fieldId: string, date: string, booking: Booking, nextHour: number;
 const seniorDob = new Date(`${new Date().getUTCFullYear() - 25}-01-01T00:00:00Z`);
 
 async function account(role: UserRole = "PLAYER", dateOfBirth: Date | null = seniorDob): Promise<Account> {
-  const user = await prisma.user.create({ data: { email: `${randomUUID()}@example.com`, passwordHash: "unused", role, name: "Test", dateOfBirth } });
+  const user = await prisma.user.create({ data: { email: `${randomUUID()}@example.com`, passwordHash: "unused", role, name: "Test", phoneNumber: "+40700000000", dateOfBirth } });
   const session = generateSessionToken();
   await prisma.session.create({ data: { tokenHash: session.tokenHash, userId: user.id, expiresAt: new Date(Date.now() + 3600000) } });
   return { id: user.id, token: `Bearer ${session.token}` };

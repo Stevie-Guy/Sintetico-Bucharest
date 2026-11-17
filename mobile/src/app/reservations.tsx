@@ -14,6 +14,7 @@ import {
   Segmented,
   uiStyles,
 } from "@/components/ui";
+import { useProfileGate } from "@/features/profile/profile-gate";
 import { useSession } from "@/features/auth/use-session";
 import { listMyReservations } from "@/features/reservations/api";
 import { ReservationStatusBadge } from "@/features/reservations/status-badge";
@@ -27,6 +28,7 @@ const filterOptions = [{ value: "ALL" as const, label: "Toate" }, ...reservation
 // US-07: rezervările jucătorului și starea lor.
 export default function MyReservationsScreen() {
   const session = useSession();
+  const { requireProfile } = useProfileGate();
   const [status, setStatus] = useState<ReservationStatus | null>(null);
   const list = useResource(
     () => (session ? listMyReservations(session.token, { status: status ?? undefined }) : Promise.resolve(null)),
@@ -82,7 +84,7 @@ export default function MyReservationsScreen() {
               </View>
               {r.status === "APPROVED" && (
                 <View style={styles.action}>
-                  <LinkButton label="⚽ Creează un meci ›" onPress={() => router.push("/matches/new")} />
+                  <LinkButton label="⚽ Creează un meci ›" onPress={() => requireProfile("crea un meci", () => router.push("/matches/new"))} />
                 </View>
               )}
             </Card>

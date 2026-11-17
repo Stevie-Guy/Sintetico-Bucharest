@@ -27,7 +27,8 @@ describe("POST /api/auth/login (US-02)", () => {
     expect(res.body).toEqual({
       token: expect.any(String),
       expiresAt: expect.any(String),
-      user: { id: expect.any(String), email: account.email, role: "PLAYER", createdAt: expect.any(String) },
+      // Cont nou, fără nume și telefon: profilul nu e complet.
+      user: { id: expect.any(String), email: account.email, role: "PLAYER", createdAt: expect.any(String), profileComplete: false },
     });
   });
 
