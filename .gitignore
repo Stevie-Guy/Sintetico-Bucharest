@@ -22,3 +22,6 @@ web-build/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Prisma Client generat (se regenerează la npm install, prin postinstall)
+backend/src/generated/

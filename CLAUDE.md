@@ -12,8 +12,12 @@ Ghid pentru Claude Code când lucrează în acest repository.
 
 - [Requirements Document.md](Requirements%20Document.md): cerințe funcționale (CFx), nefuncționale și use case-uri.
 - [product-backlog-sintetico.md](product-backlog-sintetico.md): user stories (US-xx), criterii de acceptare, priorități și dependențe.
-- [Architecture.md](Architecture.md): stack-ul tehnic.
+- [Architecture.md](Architecture.md): partea tehnică: stack-ul, versiunile folosite, structura repo-ului și convențiile API.
 - [Decisions.md](Decisions.md): jurnalul schimbărilor și deciziilor. Orice schimbare de cerințe, backlog, arhitectură sau mod de lucru se trece aici ca rând nou, sus în tabel: data și o descriere scurtă, fără să repete ce e deja în celelalte documente.
+
+**După fiecare schimbare**, actualizează în același task:
+- `Architecture.md`, dacă schimbarea atinge partea tehnică: folder sau modul nou, bibliotecă nouă, versiune schimbată, convenție nouă (ex. formatul erorilor API). Nu pune aici detalii despre funcționalități (roluri, reguli de parolă, formate de date); acelea stau în `Decisions.md` și în comentariile din cod.
+- `Decisions.md`, cu câte un rând pentru fiecare decizie luată (ex. regulile parolei pentru US-01, alegerea unei versiuni și motivul).
 
 Citește documentul relevant înainte de a implementa un story. Dacă o regulă nu e specificată acolo, întreabă în loc să presupui. Nu implementa funcționalități care nu sunt în backlog.
 
