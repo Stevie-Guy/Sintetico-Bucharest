@@ -21,17 +21,48 @@ enum UserRole {
   ADMIN
 }
 
+enum PlayerPosition {
+  PORTAR
+  FUNDAS
+  MIJLOCAS
+  ATACANT
+}
+
+enum DominantFoot {
+  STANGA
+  DREAPTA
+}
+
+enum Sector {
+  SECTOR_1
+  SECTOR_2
+  SECTOR_3
+  SECTOR_4
+  SECTOR_5
+  SECTOR_6
+}
+
 model User {
-  id           String   @id @default(uuid()) @db.Uuid
+  id                String          @id @default(uuid()) @db.Uuid
   // Stocat mereu cu litere mici, ca unicitatea să nu depindă de majuscule.
-  email        String   @unique
-  passwordHash String   @map("password_hash")
-  role         UserRole
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  email             String          @unique
+  passwordHash      String          @map("password_hash")
+  role              UserRole
+  name              String?         @db.VarChar(128)
+  dateOfBirth       DateTime?       @map("date_of_birth") @db.Date
+  preferredPosition PlayerPosition? @map("preferred_position")
+  dominantFoot      DominantFoot?   @map("dominant_foot")
+  phoneNumber       String?         @map("phone_number") @db.VarChar(12)
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
 
   sessions Session[]
-
+  terenuri Teren[]
+  reservations Reservation[]
+  notifications Notification[]
+  createdMatches Match[]
+  matchParticipations MatchParticipant[]
+  
   @@map("users")
 }
 
@@ -47,4 +78,149 @@ model Session {
 
   @@index([userId])
   @@map("sessions")
+}
+
+
+model Teren {
+  id            String   @id @default(uuid()) @db.Uuid
+  nume          String   @db.VarChar(255)
+  adresa        String   @db.Text
+  sector        Sector
+  numarJucatori Int      @map("numar_jucatori")
+  
+  adminId       String   @map("admin_id") @db.Uuid
+  admin         User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([adminId])
+  operatingHours FieldOperatingHours?
+  availabilityIntervals FieldAvailability[]
+  reservations Reservation[]
+
+  @@map("terenuri")
+}
+
+// Ore locale Europe/Bucharest, în minute de la miezul nopții.
+// Un singur program zilnic, aplicabil tuturor datelor.
+model FieldOperatingHours {
+  fieldId     String   @id @map("field_id") @db.Uuid
+  field       Teren    @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  opensAt     Int      @map("opens_at")
+  closesAt    Int      @map("closes_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("field_operating_hours")
+}
+
+model FieldAvailability {
+  version     Int      @default(1)
+  id          String   @id @default(uuid()) @db.Uuid
+  fieldId     String   @map("field_id") @db.Uuid
+  field       Teren    @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  startsAt    Int      @map("starts_at")
+  endsAt      Int      @map("ends_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([fieldId, date, startsAt])
+  reservations Reservation[]
+
+  @@map("field_availability")
+}
+
+
+enum ReservationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum NotificationType {
+  RESERVATION_REQUESTED
+  RESERVATION_APPROVED
+  RESERVATION_REJECTED
+}
+
+model Reservation {
+  id             String            @id @default(uuid()) @db.Uuid
+  fieldId        String            @map("field_id") @db.Uuid
+  field          Teren             @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  playerId       String            @map("player_id") @db.Uuid
+  player         User              @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  availabilityId String?           @map("availability_id") @db.Uuid
+  availability   FieldAvailability? @relation(fields: [availabilityId], references: [id], onDelete: SetNull)
+  // Copie a intervalului la rezervare: istoricul nu se schimbă odată cu disponibilitatea.
+  date           DateTime          @db.Date
+  startsAt       Int               @map("starts_at")
+  endsAt         Int               @map("ends_at")
+  startsAtUtc    DateTime          @map("starts_at_utc") @db.Timestamptz(3)
+  endsAtUtc      DateTime          @map("ends_at_utc") @db.Timestamptz(3)
+  status         ReservationStatus @default(PENDING)
+  createdAt      DateTime          @default(now()) @map("created_at")
+  decidedAt      DateTime?         @map("decided_at")
+  notifications  Notification[]
+  match          Match?
+
+  @@index([fieldId, status, date])
+  @@index([playerId, createdAt, id])
+  @@index([availabilityId])
+  @@map("reservations")
+}
+
+model Notification {
+  id            String           @id @default(uuid()) @db.Uuid
+  recipientId   String           @map("recipient_id") @db.Uuid
+  recipient     User             @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  reservationId String           @map("reservation_id") @db.Uuid
+  reservation   Reservation      @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  type          NotificationType
+  message       String
+  readAt        DateTime?        @map("read_at")
+  createdAt     DateTime         @default(now()) @map("created_at")
+
+  @@unique([reservationId, recipientId, type])
+  @@index([recipientId, readAt, createdAt])
+  @@map("notifications")
+}
+
+
+enum MatchAgeCategory {
+  U12
+  U15
+  U18
+  SENIOR
+  VETERANS_35_PLUS
+}
+
+model Match {
+  id            String           @id @default(uuid()) @db.Uuid
+  reservationId String           @unique @map("reservation_id") @db.Uuid
+  reservation   Reservation      @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  creatorId     String           @map("creator_id") @db.Uuid
+  creator       User             @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  startsAt      DateTime         @map("starts_at") @db.Timestamptz(3)
+  endsAt        DateTime         @map("ends_at") @db.Timestamptz(3)
+  maxPlayers    Int              @map("max_players")
+  ageCategory   MatchAgeCategory @map("age_category")
+  createdAt     DateTime         @default(now()) @map("created_at")
+  participants  MatchParticipant[]
+
+  @@index([startsAt, id])
+  @@index([creatorId])
+  @@map("matches")
+}
+
+model MatchParticipant {
+  matchId  String   @map("match_id") @db.Uuid
+  match    Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  userId   String   @map("user_id") @db.Uuid
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt DateTime @default(now()) @map("joined_at")
+
+  @@id([matchId, userId])
+  @@index([userId])
+  @@map("match_participants")
 }

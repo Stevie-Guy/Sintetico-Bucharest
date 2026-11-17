@@ -3,10 +3,33 @@
 Platformă pentru fotbal amator în București: rezervare de terenuri, meciuri pe categorii de vârstă, campionate și un sistem de rank.
 
 Documentația proiectului:
+- [Creare meci, înscriere și limita locurilor — API și Postman](docs/matches.md)
+- [Rezervări cu aprobare și notificări — API, migrare, teste și Postman](docs/field-reservations.md)
+- [Program de funcționare și disponibilitate — API, configurare și teste](docs/operating-hours.md)
 - [Requirements Document.md](Requirements%20Document.md)
 - [product-backlog-sintetico.md](product-backlog-sintetico.md)
 - [Architecture.md](Architecture.md)
 - [Decisions.md](Decisions.md)
+
+## Rularea backend-ului
+
+Codul livrat conține API-ul Express; aplicația Expo descrisă în arhitectură nu este încă inclusă.
+După configurarea `.env` în rădăcină și pornirea bazelor de date:
+
+```bash
+cd backend
+npm ci
+npm run db:migrate
+npm run typecheck
+npm test
+npm run dev
+```
+
+API-ul pornește implicit la `http://localhost:3000`. Importă
+`postman/Sintetico-Matches.postman_collection.json` în Postman și rulează colecția
+în ordine pentru fluxul complet teren → rezervare → aprobare → meci → înscriere.
+Migrația nouă `20261117040000_create_matches` adaugă tabelele meciurilor și
+participanților; nu șterge rezervările existente.
 
 ## Docker
 
