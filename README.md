@@ -30,6 +30,8 @@ docker compose up -d
 docker compose ps
 ```
 
+Înainte de `docker compose up`, în `.env` înlocuiește `schimba_parola` cu o parolă aleasă de tine, în toate cele trei locuri (`POSTGRES_PASSWORD`, `DATABASE_URL`, `DATABASE_URL_TEST`).
+
 Ambele servicii trebuie să apară cu starea `healthy`.
 
 Dacă ai deja un PostgreSQL instalat local pe portul 5432, schimbă `POSTGRES_PORT` în `.env` (ex. `5434`) și portul din `DATABASE_URL`.
@@ -57,7 +59,64 @@ Pentru baza de test, migrațiile Prisma se aplică înainte de rularea testelor,
 
 Aplicația Expo rulează pe telefon sau în emulator, deci nu poate folosi `localhost` pentru backend. Folosește IP-ul calculatorului din rețeaua locală (ex. `http://192.168.1.10:3000`). Telefonul și calculatorul trebuie să fie în aceeași rețea.
 
-### Reguli
+## Backend
 
+Cerințe: Node.js 22 sau mai nou și bazele de date pornite (`docker compose up -d`).
+
+```bash
+cd backend
+npm install            # generează și clientul Prisma
+npm run db:migrate     # aplică migrațiile pe baza de dezvoltare
+npm run dev            # pornește API-ul pe http://localhost:3000 (se repornește la modificări)
+```
+
+| Comandă | Ce face |
+|---|---|
+| `npm test` | Rulează toate testele (unit + integrare pe `db-test`) |
+| `npm run test:unit` | Doar testele unitare, fără bază de date |
+| `npm run test:coverage` | Testele, plus raportul de coverage în `backend/coverage/` |
+| `npm run typecheck` | Verifică tipurile TypeScript |
+| `npm run db:migrate -- --name <descriere>` | Creează o migrație nouă după o modificare în `schema.prisma` |
+| `npm run create-admin` | Creează contul de Administrator din `ADMIN_EMAIL` și `ADMIN_PASSWORD` (în `.env`) |
+
+Testele de integrare aplică singure migrațiile pe `db-test` înainte să ruleze.
+
+### Contul de Administrator
+
+Contul de Administrator nu se poate crea din aplicație. Setează `ADMIN_EMAIL` și `ADMIN_PASSWORD` în `.env`, apoi rulează `npm run create-admin` în `backend/`. Comanda se poate rula de mai multe ori. Dacă emailul are deja cont, contul devine Administrator, primește parola din `.env` și e deconectat de pe toate dispozitivele.
+
+În aplicație, Administratorul alege din ecranul „Contul meu” din perspectiva cărui tip de cont vede aplicația.
+
+## Aplicația mobilă
+
+```bash
+cd mobile
+cp .env.example .env   # pune în EXPO_PUBLIC_API_URL IP-ul calculatorului tău
+npm install
+npm start              # scanează codul QR cu Expo Go
+```
+
+### Pe desktop, în browser
+
+```bash
+cd mobile
+npm run web            # deschide aplicația pe http://localhost:8081
+```
+
+În browser, `mobile/.env` poate folosi `EXPO_PUBLIC_API_URL=http://localhost:3000`. Pe telefon e nevoie în continuare de IP-ul calculatorului. După ce modifici `.env`, repornește Expo.
+
+Varianta web e pentru verificări rapide; aplicația e gândită pentru telefon, așa că unele detalii arată diferit. Backend-ul acceptă cereri din browser doar de la originile din `CORS_ORIGINS` (în `.env`, implicit `http://localhost:8081`).
+
+### Eroare `EPERM` la `npm install`
+
+Dacă Node.js e instalat într-un folder unde nu ai drept de scriere (ex. `D:\nodejs`), npm nu își poate scrie cache-ul acolo. Mută cache-ul în folderul tău de utilizator, o singură dată (PowerShell):
+
+```powershell
+npm config set cache "$env:LOCALAPPDATA\npm-cache"
+```
+
+## Variabile de mediu
+
+- `.env` (rădăcină) e folosit de Docker și backend; `mobile/.env` de aplicația mobilă.
 - `.env` nu se urcă pe GitHub. Variabilele noi se adaugă în `.env.example`, cu valori de exemplu.
-- Parolele din `.env.example` sunt doar pentru dezvoltare locală.
+- `.env.example` nu conține parole reale, doar valori de exemplu (`schimba_parola`) sau câmpuri goale (`ADMIN_PASSWORD`). Valorile reale stau doar în `.env`.
