@@ -1,4 +1,6 @@
 import express from "express";
+import { reservationRouter } from "./modules/reservations/reservation.routes";
+import { notificationRouter } from "./modules/notifications/notification.routes";
 import { env } from "./config/env";
 import { cors } from "./middleware/cors";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
@@ -20,6 +22,8 @@ export function createApp() {
   app.use("/api/auth", authRouter);
   app.use("/api/profile", profileRouter);
   app.use("/api/terenuri", terenRoutes);
+  app.use("/api/reservations", reservationRouter);
+  app.use("/api/notifications", notificationRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

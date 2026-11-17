@@ -3,7 +3,8 @@ import { AppError } from "../../errors/app-error";
 import { prisma } from "../../lib/prisma";
 import { formatTime, toMinutes, type AvailabilityInput, type OperatingHoursInput } from "./schedule.schemas";
 
-export const FIELD_TIME_ZONE = "Europe/Bucharest";
+import { lockOwnedField } from "./field-lock";
+import { FIELD_TIME_ZONE, resolveSlotTimes } from "./slot-time";
 
 function presentHours(hours: FieldOperatingHours) {
   return { fieldId: hours.fieldId, opensAt: formatTime(hours.opensAt), closesAt: formatTime(hours.closesAt), timeZone: FIELD_TIME_ZONE };
@@ -11,20 +12,9 @@ function presentHours(hours: FieldOperatingHours) {
 
 function presentInterval(interval: FieldAvailability) {
   return {
-    id: interval.id, fieldId: interval.fieldId, date: interval.date.toISOString().slice(0, 10),
+    id: interval.id, version: interval.version, fieldId: interval.fieldId, date: interval.date.toISOString().slice(0, 10),
     startsAt: formatTime(interval.startsAt), endsAt: formatTime(interval.endsAt), timeZone: FIELD_TIME_ZONE,
   };
-}
-
-/** Toate modificările de program și disponibilitate blochează același teren.
- * Astfel nici micșorarea programului, nici două intervale simultane nu pot ocoli validarea. */
-async function lockOwnedField(tx: Prisma.TransactionClient, fieldId: string, userId: string) {
-  const fields = await tx.$queryRaw<{ admin_id: string }[]>`
-    SELECT admin_id FROM terenuri WHERE id = ${fieldId}::uuid FOR UPDATE`;
-  if (!fields.length) throw new AppError(404, "FIELD_NOT_FOUND", "Terenul nu există.");
-  if (fields[0].admin_id !== userId) {
-    throw new AppError(403, "FIELD_NOT_OWNED", "Doar administratorul acestui teren poate modifica programul și intervalele.");
-  }
 }
 
 async function requireField(fieldId: string) {
@@ -69,9 +59,18 @@ export async function deleteOperatingHours(fieldId: string, userId: string) {
 export async function listAvailability(fieldId: string, date: string) {
   await requireField(fieldId);
   const intervals = await prisma.fieldAvailability.findMany({
-    where: { fieldId, date: new Date(`${date}T00:00:00.000Z`) }, orderBy: [{ startsAt: "asc" }, { id: "asc" }],
+    where: { fieldId, date: new Date(`${date}T00:00:00.000Z`),
+      reservations: { none: { status: { in: ["PENDING", "APPROVED"] } } },
+    }, orderBy: [{ startsAt: "asc" }, { id: "asc" }],
+    include: { field: { select: { operatingHours: true } } },
   });
-  return intervals.map(presentInterval);
+  const now = new Date();
+  return intervals.flatMap((interval) => {
+    const hours = interval.field.operatingHours;
+    const times = resolveSlotTimes(interval);
+    if (!hours || interval.startsAt < hours.opensAt || interval.endsAt > hours.closesAt || !times || times.startsAtUtc <= now) return [];
+    return [{ ...presentInterval(interval), ...times }];
+  });
 }
 
 export async function saveAvailability(fieldId: string, userId: string, input: AvailabilityInput, intervalId?: string) {
@@ -80,6 +79,7 @@ export async function saveAvailability(fieldId: string, userId: string, input: A
     if (intervalId && !await tx.fieldAvailability.findFirst({ where: { id: intervalId, fieldId } })) {
       throw new AppError(404, "INTERVAL_NOT_FOUND", "Intervalul nu există pentru acest teren.");
     }
+    if (intervalId) await requireUnreservedInterval(tx, fieldId, intervalId);
     const hours = await tx.fieldOperatingHours.findUnique({ where: { fieldId } });
     if (!hours) throw new AppError(409, "HOURS_NOT_SET", "Configurează programul terenului înainte de adăugarea intervalelor.");
     const startsAt = toMinutes(input.startsAt);
@@ -97,7 +97,7 @@ export async function saveAvailability(fieldId: string, userId: string, input: A
     if (overlap) throw new AppError(409, "INTERVAL_OVERLAP", "Intervalul se suprapune cu un interval disponibil existent.");
     const data = { fieldId, date, startsAt, endsAt };
     const interval = intervalId
-      ? await tx.fieldAvailability.update({ where: { id: intervalId }, data })
+      ? await tx.fieldAvailability.update({ where: { id: intervalId }, data: { ...data, version: { increment: 1 } } })
       : await tx.fieldAvailability.create({ data });
     return presentInterval(interval);
   });
@@ -106,7 +106,14 @@ export async function saveAvailability(fieldId: string, userId: string, input: A
 export async function deleteAvailability(fieldId: string, userId: string, intervalId: string) {
   await prisma.$transaction(async (tx) => {
     await lockOwnedField(tx, fieldId, userId);
+    await requireUnreservedInterval(tx, fieldId, intervalId);
     const result = await tx.fieldAvailability.deleteMany({ where: { id: intervalId, fieldId } });
     if (!result.count) throw new AppError(404, "INTERVAL_NOT_FOUND", "Intervalul nu există pentru acest teren.");
   });
+}
+
+
+async function requireUnreservedInterval(tx: Prisma.TransactionClient, fieldId: string, intervalId: string) {
+  const active = await tx.reservation.findFirst({ where: { fieldId, availabilityId: intervalId, status: { in: ["PENDING", "APPROVED"] } }, select: { id: true } });
+  if (active) throw new AppError(409, "INTERVAL_HAS_RESERVATION", "Un interval cu rezervare în așteptare sau aprobată nu poate fi modificat sau șters.");
 }
